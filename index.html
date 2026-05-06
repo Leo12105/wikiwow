@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WoW Item Icons Wiki</title>
+    <title>WoW Icon Wiki - Iconos Reales</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -32,43 +32,13 @@
         header p { color: #888; font-size: 0.95em; }
 
         .search-container {
-            max-width: 900px;
+            max-width: 1000px;
             margin: 30px auto;
             padding: 0 20px;
         }
-        .search-box {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-        .search-box input {
-            flex: 1;
-            padding: 15px 20px;
-            border: 2px solid #333;
-            border-radius: 10px;
-            background: #16213e;
-            color: #fff;
-            font-size: 1.1em;
-        }
-        .search-box input:focus {
-            outline: none;
-            border-color: #f5a623;
-            box-shadow: 0 0 15px rgba(245, 166, 35, 0.2);
-        }
-        .search-box button {
-            padding: 15px 30px;
-            background: linear-gradient(135deg, #f5a623, #e88d0c);
-            border: none;
-            border-radius: 10px;
-            color: #000;
-            font-size: 1.1em;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        .search-box button:hover { transform: scale(1.05); }
 
         .info-box {
-            max-width: 900px;
+            max-width: 1000px;
             margin: 0 auto 20px;
             padding: 20px;
             background: linear-gradient(135deg, #1a1a3e, #2d1b4e);
@@ -85,6 +55,7 @@
             border-radius: 4px;
             color: #1eff00;
             font-family: 'Courier New', monospace;
+            font-size: 0.9em;
         }
         .info-box a {
             color: #0070dd;
@@ -93,39 +64,136 @@
         .info-box a:hover { color: #0090ff; text-decoration: underline; }
 
         .id-input-section {
-            max-width: 900px;
-            margin: 0 auto 30px;
-            padding: 20px;
+            max-width: 1000px;
+            margin: 0 auto 20px;
+            padding: 25px;
             background: #16213e;
-            border-radius: 10px;
-            border: 2px dashed #555;
+            border-radius: 12px;
+            border: 2px solid #444;
         }
         .id-input-section h3 {
             color: #f5a623;
             margin-bottom: 15px;
+            font-size: 1.2em;
         }
         .id-input-row {
             display: flex;
             gap: 10px;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
         }
         .id-input-row input {
             flex: 1;
-            padding: 12px;
+            padding: 14px;
             background: #0f0f23;
             border: 1px solid #444;
-            border-radius: 6px;
+            border-radius: 8px;
             color: #fff;
+            font-size: 1em;
+        }
+        .id-input-row input:focus {
+            outline: none;
+            border-color: #f5a623;
         }
         .id-input-row button {
-            padding: 12px 20px;
-            background: #1eff00;
+            padding: 14px 25px;
+            background: linear-gradient(135deg, #1eff00, #15cc00);
             color: #000;
             border: none;
-            border-radius: 6px;
+            border-radius: 8px;
             cursor: pointer;
             font-weight: bold;
+            font-size: 1em;
+            white-space: nowrap;
         }
+        .id-input-row button:hover {
+            transform: scale(1.03);
+            box-shadow: 0 0 20px rgba(30, 255, 0, 0.4);
+        }
+        .id-input-row button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .preset-section {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #333;
+        }
+        .preset-section p {
+            color: #888;
+            margin-bottom: 10px;
+            font-size: 0.9em;
+        }
+        .preset-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .preset-btn {
+            padding: 10px 18px;
+            background: #2d1b4e;
+            border: 1px solid #555;
+            border-radius: 8px;
+            color: #ccc;
+            cursor: pointer;
+            font-size: 0.85em;
+            transition: all 0.3s;
+        }
+        .preset-btn:hover {
+            border-color: #f5a623;
+            color: #f5a623;
+            background: #3d2b5e;
+        }
+        .preset-btn.danger {
+            border-color: #ff3030;
+            color: #ff6060;
+        }
+        .preset-btn.danger:hover {
+            background: #4a1a1a;
+            color: #ff8080;
+        }
+
+        .progress-bar {
+            display: none;
+            max-width: 1000px;
+            margin: 0 auto 20px;
+            padding: 0 20px;
+        }
+        .progress-bar.show { display: block; }
+        .progress-track {
+            background: #16213e;
+            border-radius: 10px;
+            overflow: hidden;
+            height: 30px;
+            position: relative;
+            border: 1px solid #444;
+        }
+        .progress-fill {
+            background: linear-gradient(90deg, #1eff00, #f5a623);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s;
+        }
+        .progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #fff;
+            font-weight: bold;
+            font-size: 0.9em;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+        }
+
+        .stats {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px 10px;
+            color: #888;
+            text-align: center;
+        }
+        .stats span { color: #f5a623; font-weight: bold; }
 
         .items-container {
             max-width: 1400px;
@@ -134,7 +202,7 @@
         }
         .items-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
             gap: 20px;
         }
 
@@ -142,31 +210,32 @@
             background: linear-gradient(145deg, #16213e, #1a1a3e);
             border: 1px solid #333;
             border-radius: 12px;
-            padding: 20px;
+            padding: 18px;
             transition: all 0.3s;
-            position: relative;
         }
         .item-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-3px);
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
+        .item-card.poor { border-left: 4px solid #9d9d9d; }
+        .item-card.common { border-left: 4px solid #ffffff; }
+        .item-card.uncommon { border-left: 4px solid #1eff00; }
+        .item-card.rare { border-left: 4px solid #0070dd; }
         .item-card.epic { border-left: 4px solid #a335ee; }
         .item-card.legendary { border-left: 4px solid #ff8000; }
-        .item-card.rare { border-left: 4px solid #0070dd; }
-        .item-card.uncommon { border-left: 4px solid #1eff00; }
-        .item-card.common { border-left: 4px solid #ffffff; }
+        .item-card.artifact { border-left: 4px solid #e6cc80; }
+        .item-card.heirloom { border-left: 4px solid #00ccff; }
 
         .item-header {
             display: flex;
             align-items: center;
             gap: 15px;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
         .icon-wrapper {
             width: 56px;
             height: 56px;
             flex-shrink: 0;
-            position: relative;
         }
         .icon-wrapper img {
             width: 56px;
@@ -176,106 +245,101 @@
             background: #000;
             cursor: pointer;
         }
-        .icon-loading {
-            width: 56px;
-            height: 56px;
-            border-radius: 8px;
-            background: #0f0f23;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #555;
-            font-size: 0.7em;
-        }
-        
+        .item-card.poor img { border-color: #9d9d9d; }
+        .item-card.common img { border-color: #ffffff; }
+        .item-card.uncommon img { border-color: #1eff00; }
+        .item-card.rare img { border-color: #0070dd; }
+        .item-card.epic img { border-color: #a335ee; }
+        .item-card.legendary img { border-color: #ff8000; }
+        .item-card.artifact img { border-color: #e6cc80; }
+        .item-card.heirloom img { border-color: #00ccff; }
+
+        .item-info { flex: 1; min-width: 0; }
         .item-name {
             font-size: 1em;
             font-weight: bold;
             line-height: 1.3;
+            word-wrap: break-word;
         }
+        .item-name.poor { color: #9d9d9d; }
+        .item-name.common { color: #ffffff; }
+        .item-name.uncommon { color: #1eff00; }
+        .item-name.rare { color: #0070dd; }
         .item-name.epic { color: #a335ee; }
         .item-name.legendary { color: #ff8000; }
-        .item-name.rare { color: #0070dd; }
-        .item-name.uncommon { color: #1eff00; }
-        .item-name.common { color: #ffffff; }
+        .item-name.artifact { color: #e6cc80; }
+        .item-name.heirloom { color: #00ccff; }
 
         .item-id {
-            font-size: 0.8em;
+            font-size: 0.75em;
             color: #888;
-            margin-top: 3px;
+            margin-top: 4px;
             font-family: 'Courier New', monospace;
+        }
+        .item-icon-name {
+            font-size: 0.7em;
+            color: #555;
+            margin-top: 2px;
+            font-family: 'Courier New', monospace;
+            word-break: break-all;
         }
 
         .item-actions {
-            display: flex;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
             gap: 6px;
-            flex-wrap: wrap;
             margin-top: 12px;
         }
         .btn-action {
-            padding: 7px 12px;
+            padding: 8px 10px;
             border: none;
             border-radius: 6px;
             cursor: pointer;
             font-size: 0.8em;
             font-weight: 600;
-            flex: 1;
-            min-width: 80px;
+            transition: opacity 0.2s;
         }
+        .btn-action:hover { opacity: 0.85; }
         .btn-copy-url { background: #0070dd; color: white; }
         .btn-copy-icon { background: #a335ee; color: white; }
         .btn-download { background: #1eff00; color: #000; }
         .btn-copy-html { background: #ff8000; color: #000; }
-        .btn-wowhead { background: #444; color: #fff; }
-        .btn-remove { background: #ff3030; color: white; }
+        .btn-wowhead { background: #444; color: #fff; grid-column: span 1; }
+        .btn-remove { background: #ff3030; color: white; grid-column: span 1; }
 
         .toast {
             position: fixed;
             bottom: 30px;
             left: 50%;
-            transform: translateX(-50%) translateY(100px);
+            transform: translateX(-50%) translateY(150px);
             background: #1eff00;
             color: #000;
-            padding: 15px 30px;
+            padding: 15px 25px;
             border-radius: 10px;
             font-weight: bold;
             z-index: 9999;
             transition: transform 0.4s ease;
             box-shadow: 0 5px 30px rgba(30, 255, 0, 0.3);
+            max-width: 90%;
+            text-align: center;
         }
-        .toast.show {
-            transform: translateX(-50%) translateY(0);
-        }
+        .toast.show { transform: translateX(-50%) translateY(0); }
         .toast.error { background: #ff3030; color: white; }
+        .toast.warning { background: #ff8000; color: #000; }
 
         .empty-state {
             text-align: center;
-            padding: 60px 20px;
+            padding: 80px 20px;
             color: #666;
         }
         .empty-state .emoji {
-            font-size: 4em;
-            margin-bottom: 15px;
+            font-size: 5em;
+            margin-bottom: 20px;
+            opacity: 0.5;
         }
-
-        .preset-buttons {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-            flex-wrap: wrap;
-        }
-        .preset-btn {
-            padding: 8px 16px;
-            background: #2d1b4e;
-            border: 1px solid #555;
-            border-radius: 6px;
-            color: #ccc;
-            cursor: pointer;
-            font-size: 0.85em;
-        }
-        .preset-btn:hover {
-            border-color: #f5a623;
-            color: #f5a623;
+        .empty-state h3 {
+            color: #888;
+            margin-bottom: 10px;
         }
 
         footer {
@@ -289,7 +353,7 @@
 
         @media (max-width: 600px) {
             header h1 { font-size: 1.5em; }
-            .search-box { flex-direction: column; }
+            .id-input-row { flex-direction: column; }
             .items-grid { grid-template-columns: 1fr; }
         }
     </style>
@@ -298,32 +362,49 @@
 
     <header>
         <h1>⚔️ <span>WoW</span> Icon Wiki</h1>
-        <p>Iconos REALES de items - Cargados directamente desde Wowhead</p>
+        <p>Iconos REALES cargados directamente desde Wowhead 100% funcional</p>
     </header>
 
     <div class="search-container">
         <div class="info-box">
-            <h3>📌 Cómo conseguir el icono EXACTO de cualquier item</h3>
-            <p><strong>Método 1:</strong> Ve a <a href="https://es.wowhead.com" target="_blank">es.wowhead.com</a>, busca el item y copia el número del URL.<br>
-            Ejemplo: <code>https://es.wowhead.com/item=<strong>32757</strong>/...</code> → ID: <strong>32757</strong></p>
-            <p><strong>Método 2:</strong> Pega varios IDs separados por comas y los carga todos a la vez.</p>
+            <h3>📌 Cómo usar esta herramienta</h3>
+            <p><strong>1.</strong> Ve a <a href="https://es.wowhead.com" target="_blank">es.wowhead.com</a> y busca el item que quieres.</p>
+            <p><strong>2.</strong> Copia el número del URL. Ejemplo: <code>wowhead.com/item=<strong>32757</strong>/...</code> → ID: <strong>32757</strong></p>
+            <p><strong>3.</strong> Pega el ID (o varios separados por comas) y haz clic en "Cargar Iconos".</p>
+            <p><strong>4.</strong> Los iconos se descargan REALES del juego usando proxies CORS automáticos.</p>
         </div>
 
         <div class="id-input-section">
             <h3>🔢 Añadir items por ID de Wowhead</h3>
             <div class="id-input-row">
-                <input type="text" id="itemIdInput" placeholder="Pega IDs separados por comas: 32757, 33079, 44175, 49623..." autocomplete="off">
-                <button onclick="addItemsByIds()">➕ Cargar Iconos</button>
+                <input type="text" id="itemIdInput" placeholder="Ej: 32757, 33079, 44175, 49623... (puedes pegar muchos)" autocomplete="off">
+                <button id="loadBtn" onclick="addItemsByIds()">➕ Cargar Iconos</button>
             </div>
-            <div class="preset-buttons">
-                <button class="preset-btn" onclick="loadPreset('tcg')">🎴 Cargar TCG Burning Crusade</button>
-                <button class="preset-btn" onclick="loadPreset('wrathgate')">⚔️ Cargar TCG Wrathgate</button>
-                <button class="preset-btn" onclick="loadPreset('scourgewar')">💀 Cargar TCG Guerra Plaga</button>
-                <button class="preset-btn" onclick="loadPreset('legendary')">🌟 Cargar Legendarios</button>
-                <button class="preset-btn" onclick="loadPreset('mounts')">🐉 Cargar Monturas</button>
-                <button class="preset-btn" onclick="clearAll()">🗑️ Limpiar todo</button>
+            
+            <div class="preset-section">
+                <p>📦 <strong>Presets rápidos</strong> (IDs verificados):</p>
+                <div class="preset-buttons">
+                    <button class="preset-btn" onclick="loadPreset('tcg_burning')">🎴 TCG Burning Crusade</button>
+                    <button class="preset-btn" onclick="loadPreset('tcg_wrathgate')">⚔️ TCG Wrathgate</button>
+                    <button class="preset-btn" onclick="loadPreset('tcg_scourgewar')">💀 TCG Scourgewar</button>
+                    <button class="preset-btn" onclick="loadPreset('tcg_heroes')">🛡️ TCG Heroes/Fields</button>
+                    <button class="preset-btn" onclick="loadPreset('legendary')">🌟 Legendarios</button>
+                    <button class="preset-btn" onclick="loadPreset('mounts')">🐉 Monturas Raras</button>
+                    <button class="preset-btn danger" onclick="clearAll()">🗑️ Limpiar todo</button>
+                </div>
             </div>
         </div>
+    </div>
+
+    <div class="progress-bar" id="progressBar">
+        <div class="progress-track">
+            <div class="progress-fill" id="progressFill"></div>
+            <div class="progress-text" id="progressText">0 / 0</div>
+        </div>
+    </div>
+
+    <div class="stats" id="stats" style="display:none;">
+        <span id="itemCount">0</span> items cargados
     </div>
 
     <div class="items-container">
@@ -331,29 +412,31 @@
         <div id="emptyState" class="empty-state">
             <div class="emoji">📦</div>
             <h3>Aún no hay items cargados</h3>
-            <p>Pega IDs de Wowhead arriba o usa los botones predefinidos</p>
+            <p>Pega IDs de Wowhead arriba o usa los botones de presets</p>
         </div>
     </div>
 
     <div class="toast" id="toast"></div>
 
     <footer>
-        <p>WoW Icon Wiki | Iconos cargados desde Wowhead.com (datos oficiales)</p>
+        <p>WoW Icon Wiki | Iconos cargados desde Wowhead.com via proxies CORS</p>
     </footer>
 
-    <!-- Tooltips de Wowhead -->
     <script>
-        const whTooltips = {colorLinks: true, iconizeLinks: true, renameLinks: true};
-    </script>
-    <script src="https://wow.zamimg.com/js/tooltips.js"></script>
+        // ============ PROXIES CORS GRATUITOS (con fallback) ============
+        const CORS_PROXIES = [
+            'https://api.allorigins.win/raw?url=',
+            'https://corsproxy.io/?',
+            'https://api.codetabs.com/v1/proxy?quest=',
+            'https://cors-anywhere.herokuapp.com/',
+        ];
 
-    <script>
         let loadedItems = [];
+        let workingProxy = null; // Cachear el proxy que funciona
 
-        // ============ PRESETS DE IDs REALES DE WOWHEAD ============
+        // ============ PRESETS DE IDs REALES ============
         const PRESETS = {
-            // TCG Burning Crusade - IDs reales verificados
-            tcg: [
+            tcg_burning: [
                 32757,  // Riendas del tigre espectral
                 33225,  // Riendas del tigre espectral veloz
                 34061,  // Huevo de gallo mágico
@@ -361,8 +444,8 @@
                 33223,  // Piñata ogra
                 34499,  // Bomba de pintura
                 35226,  // Senda de Cenarius
-                30148,  // Caza de Illidan (Icecrown)
-                30150,  // Fuegos de Terrallende (Fields of Honor)
+                30148,  // Caza de Illidan
+                30150,  // Fuegos de Terrallende
                 35227,  // Baliza de comerciante de almas
                 38301,  // D.I.S.C.O.
                 37254,  // Las huellas de Illidan
@@ -370,41 +453,42 @@
                 38050,  // Tetera de potaje goblin
                 34686,  // Máquina de clima personal
                 35225,  // Cohete abisal X-51 XTREMO
-                34061,  // Cohete abisal X-51
                 35513,  // Cesta de merienda
-                35499,  // Talismán de plátano (Rey Mukla)
+                35499,  // Talismán de plátano
                 37710,  // Galleta de mascota retro
                 35202,  // Diablillo en bola
             ],
-            // TCG Wrathgate
-            wrathgate: [
+            tcg_wrathgate: [
                 44175,  // Hipogrifo flameante
                 44806,  // Camisa morada épica
                 45063,  // Pedestal de estatua instantánea
                 45073,  // Expositor de espadas de gomaespuma
                 44794,  // Caja de regalos de Landro
                 46813,  // Tigre balancín
-                46708,  // Cometa de dragón (Kiting)
+                46708,  // Cometa de dragón
                 46709,  // Tabardo de las llamas
-                49284,  // Gallina cohete
+                49284,  // Gallina cohete (robot)
                 44430,  // Pollo de hipogrifo
                 45047,  // Avión de papel
                 46831,  // Tortuga marina
-                49183,  // Ídolo de ogro tallado
-                46725,  // Fuego de artificio morado permanente
             ],
-            // TCG Scourgewar
-            scourgewar: [
+            tcg_scourgewar: [
                 49290,  // Cometa colmillarr
                 49704,  // Tambores de guerra
                 49286,  // Cachorro de tigre espectral
-                49295,  // Oso de batalla grande (The Red Bearon)
+                49295,  // Oso de batalla grande
                 49377,  // Brida de semental blanco
                 49362,  // Bandera de potestad (Owned!)
                 49703,  // G.R.A.N.A.D.A. de fiesta
-                49284,  // Silbato de raptor marfil
+                49183,  // Ídolo de ogro tallado
+                46725,  // Fuego de artificio morado permanente
             ],
-            // Items legendarios famosos
+            tcg_heroes: [
+                33809,  // Oso de guerra Amani (no TCG pero relacionado)
+                30150,  // Fields of Honor
+                32458,  // Cenizas de Al'ar
+                34061,  // Magic Rooster Egg
+            ],
             legendary: [
                 19019,  // Thunderfury
                 17182,  // Sulfuras
@@ -416,8 +500,8 @@
                 71086,  // Dragonwrath
                 22589,  // Atiesh
                 13262,  // Ashbringer
+                32524,  // Apolyon
             ],
-            // Monturas raras
             mounts: [
                 32458,  // Cenizas de Al'ar
                 30480,  // Corcel de guerra ígneo
@@ -425,88 +509,187 @@
                 21176,  // Cristal Qiraji negro
                 50818,  // Invencible
                 49636,  // Draco de Onyxia
-                44177,  // Hipogrifo flameante
                 13335,  // Corcel de la Muerte
                 18902,  // Raptor Razzashi
                 19872,  // Tigre Zulian
+                43951,  // Bronze Drake
+                43952,  // Azure Drake
             ]
         };
 
-        function showToast(message, isError = false) {
+        // ============ NOTIFICACIONES ============
+        function showToast(message, type = 'success') {
             const toast = document.getElementById('toast');
             toast.textContent = message;
-            toast.className = isError ? 'toast show error' : 'toast show';
-            setTimeout(() => toast.classList.remove('show'), 3000);
+            toast.className = 'toast show ' + type;
+            setTimeout(() => toast.classList.remove('show'), 3500);
         }
 
-        // ============ CARGAR ITEMS POR ID ============
-        async function addItemsByIds() {
-            const input = document.getElementById('itemIdInput').value.trim();
-            if (!input) {
-                showToast('⚠️ Por favor pega al menos un ID', true);
-                return;
+        // ============ FETCH CON PROXY CON FALLBACK ============
+        async function fetchWithProxy(url) {
+            // Si ya tenemos un proxy que funciona, intentar usarlo primero
+            if (workingProxy) {
+                try {
+                    const proxyUrl = workingProxy + encodeURIComponent(url);
+                    const response = await fetch(proxyUrl, { 
+                        signal: AbortSignal.timeout(10000) 
+                    });
+                    if (response.ok) {
+                        return await response.text();
+                    }
+                } catch (e) {
+                    console.log('Proxy en caché falló, probando otros...');
+                    workingProxy = null;
+                }
             }
 
-            const ids = input.split(/[,\s]+/).map(s => s.trim()).filter(s => /^\d+$/.test(s));
-            
-            if (ids.length === 0) {
-                showToast('⚠️ No se encontraron IDs válidos', true);
-                return;
+            // Probar todos los proxies
+            for (const proxy of CORS_PROXIES) {
+                try {
+                    const proxyUrl = proxy + encodeURIComponent(url);
+                    const response = await fetch(proxyUrl, { 
+                        signal: AbortSignal.timeout(10000) 
+                    });
+                    if (response.ok) {
+                        const text = await response.text();
+                        if (text && text.length > 50) { // Validar que tenga contenido
+                            workingProxy = proxy; // Guardar el que funcionó
+                            console.log(`✅ Proxy funcional: ${proxy}`);
+                            return text;
+                        }
+                    }
+                } catch (e) {
+                    console.log(`❌ Proxy ${proxy} falló:`, e.message);
+                    continue;
+                }
             }
-
-            showToast(`⏳ Cargando ${ids.length} items...`);
             
-            for (const id of ids) {
-                await loadItemById(parseInt(id));
-            }
-            
-            document.getElementById('itemIdInput').value = '';
-            renderItems();
-            showToast(`✅ ${ids.length} items cargados`);
+            throw new Error('Ningún proxy CORS funcionó');
         }
 
+        // ============ CARGAR ITEM POR ID ============
         async function loadItemById(id) {
             // Evitar duplicados
-            if (loadedItems.find(item => item.id === id)) return;
+            if (loadedItems.find(item => item.id === id)) {
+                return { success: false, reason: 'duplicado' };
+            }
 
             try {
-                // Usar la API XML pública de Wowhead
-                const response = await fetch(`https://nether.wowhead.com/item=${id}&xml`);
-                const text = await response.text();
+                const xmlUrl = `https://www.wowhead.com/item=${id}&xml`;
+                const text = await fetchWithProxy(xmlUrl);
                 
                 // Parsear XML
                 const parser = new DOMParser();
                 const xml = parser.parseFromString(text, 'text/xml');
                 
+                // Verificar errores de parseo
+                const parseError = xml.querySelector('parsererror');
+                if (parseError) {
+                    throw new Error('Error de parseo XML');
+                }
+
+                const errorNode = xml.querySelector('error');
+                if (errorNode) {
+                    throw new Error(errorNode.textContent);
+                }
+
                 const nameNode = xml.querySelector('name');
                 const iconNode = xml.querySelector('icon');
                 const qualityNode = xml.querySelector('quality');
                 
-                if (!iconNode) {
-                    throw new Error('No se pudo obtener el icono');
+                if (!iconNode || !iconNode.textContent) {
+                    throw new Error('No se encontró el icono');
                 }
 
                 const item = {
                     id: id,
-                    name: nameNode ? nameNode.textContent : `Item #${id}`,
-                    icon: iconNode.textContent.toLowerCase(),
+                    name: nameNode ? nameNode.textContent.trim() : `Item #${id}`,
+                    icon: iconNode.textContent.toLowerCase().trim(),
                     quality: qualityNode ? qualityNode.getAttribute('id') || '1' : '1'
                 };
                 
                 loadedItems.push(item);
+                return { success: true };
             } catch (e) {
-                // Fallback: cargar solo con icono genérico usando el ID
-                console.log(`Error con ID ${id}, intentando método alternativo`);
-                loadedItems.push({
-                    id: id,
-                    name: `Item #${id}`,
-                    icon: null,
-                    quality: '1',
-                    needsLookup: true
-                });
+                console.error(`Error cargando item ${id}:`, e.message);
+                return { success: false, reason: e.message };
             }
         }
 
+        // ============ AÑADIR ITEMS POR IDs ============
+        async function addItemsByIds() {
+            const input = document.getElementById('itemIdInput').value.trim();
+            if (!input) {
+                showToast('⚠️ Por favor pega al menos un ID', 'warning');
+                return;
+            }
+
+            const ids = input.split(/[,\s\n]+/)
+                .map(s => s.trim())
+                .filter(s => /^\d+$/.test(s))
+                .map(s => parseInt(s));
+            
+            if (ids.length === 0) {
+                showToast('⚠️ No se encontraron IDs válidos', 'error');
+                return;
+            }
+
+            await processIds(ids);
+            document.getElementById('itemIdInput').value = '';
+        }
+
+        async function processIds(ids) {
+            const loadBtn = document.getElementById('loadBtn');
+            const progressBar = document.getElementById('progressBar');
+            const progressFill = document.getElementById('progressFill');
+            const progressText = document.getElementById('progressText');
+            
+            loadBtn.disabled = true;
+            progressBar.classList.add('show');
+            
+            let success = 0;
+            let failed = 0;
+            let duplicates = 0;
+
+            for (let i = 0; i < ids.length; i++) {
+                const id = ids[i];
+                progressText.textContent = `Cargando ${i + 1} / ${ids.length} (ID: ${id})`;
+                progressFill.style.width = `${((i + 1) / ids.length) * 100}%`;
+                
+                const result = await loadItemById(id);
+                if (result.success) {
+                    success++;
+                    renderItems(); // Renderizar en tiempo real
+                } else if (result.reason === 'duplicado') {
+                    duplicates++;
+                } else {
+                    failed++;
+                }
+                
+                // Pequeña pausa para no saturar el proxy
+                await new Promise(r => setTimeout(r, 200));
+            }
+
+            loadBtn.disabled = false;
+            
+            setTimeout(() => {
+                progressBar.classList.remove('show');
+            }, 1000);
+
+            let msg = `✅ ${success} cargados`;
+            if (duplicates > 0) msg += ` | ${duplicates} duplicados`;
+            if (failed > 0) msg += ` | ❌ ${failed} fallidos`;
+            
+            showToast(msg, failed > 0 ? 'warning' : 'success');
+        }
+
+        async function loadPreset(presetName) {
+            const ids = PRESETS[presetName];
+            if (!ids) return;
+            await processIds(ids);
+        }
+
+        // ============ RENDER ============
         function getQualityName(qualityId) {
             const qualities = {
                 '0': 'poor',
@@ -525,63 +708,63 @@
             return `https://wow.zamimg.com/images/wow/icons/large/${iconName}.jpg`;
         }
 
-        // ============ RENDERIZAR ITEMS ============
         function renderItems() {
             const grid = document.getElementById('itemsGrid');
             const emptyState = document.getElementById('emptyState');
+            const stats = document.getElementById('stats');
 
             if (loadedItems.length === 0) {
                 grid.innerHTML = '';
                 emptyState.style.display = 'block';
+                stats.style.display = 'none';
                 return;
             }
 
             emptyState.style.display = 'none';
+            stats.style.display = 'block';
+            document.getElementById('itemCount').textContent = loadedItems.length;
+            
             grid.innerHTML = '';
 
             loadedItems.forEach((item, index) => {
                 const quality = getQualityName(item.quality);
-                const iconUrl = item.icon ? getIconUrl(item.icon) : null;
+                const iconUrl = getIconUrl(item.icon);
+                const safeName = item.name.replace(/'/g, "\\'").replace(/"/g, '&quot;');
                 
                 const card = document.createElement('div');
                 card.className = `item-card ${quality}`;
                 card.innerHTML = `
                     <div class="item-header">
                         <div class="icon-wrapper">
-                            ${iconUrl ? 
-                                `<img src="${iconUrl}" alt="${item.name}" 
-                                     onerror="this.src='https://wow.zamimg.com/images/wow/icons/large/inv_misc_questionmark.jpg'"
-                                     onclick="window.open('https://es.wowhead.com/item=${item.id}', '_blank')"
-                                     title="Click para ver en Wowhead">`
-                                :
-                                `<div class="icon-loading">Cargando...</div>`
-                            }
+                            <img src="${iconUrl}" alt="${item.name}" 
+                                 onerror="this.src='https://wow.zamimg.com/images/wow/icons/large/inv_misc_questionmark.jpg'"
+                                 onclick="window.open('https://es.wowhead.com/item=${item.id}', '_blank')"
+                                 title="Click para ver en Wowhead">
                         </div>
-                        <div style="flex:1; min-width:0;">
+                        <div class="item-info">
                             <div class="item-name ${quality}">${item.name}</div>
                             <div class="item-id">ID: ${item.id}</div>
+                            <div class="item-icon-name">${item.icon}</div>
                         </div>
                     </div>
                     <div class="item-actions">
-                        ${item.icon ? `
-                            <button class="btn-action btn-copy-url" onclick="copyText('${getIconUrl(item.icon)}')">
-                                📋 URL
-                            </button>
-                            <button class="btn-action btn-copy-icon" onclick="copyImage('${item.icon}', '${item.name.replace(/'/g, "\\'")}')">
-                                🖼️ Imagen
-                            </button>
-                            <button class="btn-action btn-download" onclick="downloadIcon('${item.icon}', '${item.name.replace(/'/g, "\\'")}')">
-                                💾 Descargar
-                            </button>
-                            <button class="btn-action btn-copy-html" onclick="copyHtml('${item.icon}', '${item.name.replace(/'/g, "\\'")}')">
-                                📝 HTML
-                            </button>
-                        ` : ''}
+                        <button class="btn-action btn-copy-url" onclick="copyText('${getIconUrl(item.icon)}')">
+                            📋 URL
+                        </button>
+                        <button class="btn-action btn-copy-icon" onclick="copyImage('${item.icon}', '${safeName}')">
+                            🖼️ Copiar IMG
+                        </button>
+                        <button class="btn-action btn-download" onclick="downloadIcon('${item.icon}', '${safeName}')">
+                            💾 Descargar
+                        </button>
+                        <button class="btn-action btn-copy-html" onclick="copyHtml('${item.icon}', '${safeName}')">
+                            📝 HTML
+                        </button>
                         <button class="btn-action btn-wowhead" onclick="window.open('https://es.wowhead.com/item=${item.id}', '_blank')">
                             🔗 Wowhead
                         </button>
                         <button class="btn-action btn-remove" onclick="removeItem(${index})">
-                            ✖
+                            ✖ Eliminar
                         </button>
                     </div>
                 `;
@@ -597,25 +780,11 @@
 
         function clearAll() {
             if (loadedItems.length === 0) return;
-            if (confirm('¿Eliminar todos los items cargados?')) {
+            if (confirm(`¿Eliminar todos los ${loadedItems.length} items cargados?`)) {
                 loadedItems = [];
                 renderItems();
                 showToast('🗑️ Todo eliminado');
             }
-        }
-
-        async function loadPreset(presetName) {
-            const ids = PRESETS[presetName];
-            if (!ids) return;
-
-            showToast(`⏳ Cargando ${ids.length} items del preset...`);
-            
-            for (const id of ids) {
-                await loadItemById(id);
-            }
-            
-            renderItems();
-            showToast(`✅ Preset cargado (${ids.length} items)`);
         }
 
         // ============ FUNCIONES DE COPIA ============
@@ -643,7 +812,10 @@
                 img.crossOrigin = 'anonymous';
                 img.src = URL.createObjectURL(blob);
                 
-                await new Promise((resolve) => { img.onload = resolve; });
+                await new Promise((resolve, reject) => {
+                    img.onload = resolve;
+                    img.onerror = reject;
+                });
 
                 const canvas = document.createElement('canvas');
                 canvas.width = img.width;
@@ -664,6 +836,7 @@
                 
                 URL.revokeObjectURL(img.src);
             } catch (e) {
+                showToast('⚠️ No se pudo copiar imagen, copiando URL', 'warning');
                 copyText(url);
             }
         }
@@ -678,12 +851,15 @@
                     const link = document.createElement('a');
                     link.href = URL.createObjectURL(blob);
                     link.download = `${safeName}_${iconName}.jpg`;
+                    document.body.appendChild(link);
                     link.click();
+                    document.body.removeChild(link);
                     URL.revokeObjectURL(link.href);
                     showToast(`💾 Descargando icono`);
                 })
                 .catch(() => {
                     window.open(url, '_blank');
+                    showToast('📥 Imagen abierta - Guárdala con clic derecho', 'warning');
                 });
         }
 
@@ -693,10 +869,13 @@
             copyText(html);
         }
 
-        // Permitir Enter en el input
+        // ============ EVENTOS ============
         document.getElementById('itemIdInput').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') addItemsByIds();
         });
+
+        // Renderizar estado inicial
+        renderItems();
     </script>
 </body>
 </html>
