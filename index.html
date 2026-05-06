@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WoW Item Icons Wiki</title>
+    <style>
+        /* ============ RESET & BASE ============ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #1a1a2e;
+            color: #e0e0e0;
+            min-height: 100vh;
+        }
+
+        /* ============ HEADER ============ */
+        header {
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 50%, #2d1b4e 100%);
+            border-bottom: 3px solid #f5a623;
+            padding: 20px 0;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            color: #f5a623;
+            text-shadow: 0 0 20px rgba(245, 166, 35, 0.5);
+            margin-bottom: 5px;
+        }
+
+        header h1 span {
+            color: #a855f7;
+        }
+
+        header p {
+            color: #888;
+            font-size: 0.95em;
+        }
+
+        /* ============ BARRA DE BÚSQUEDA ============ */
+        .search-container {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .search-box {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .search-box input {
+            flex: 1;
+            padding: 15px 20px;
+            border: 2px solid #333;
+            border-radius: 10px;
+            background: #16213e;
+            color: #fff;
+            font-size: 1.1em;
+            transition: border-color 0.3s;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: #f5a623;
+            box-shadow: 0 0 15px rgba(245, 166, 35, 0.2);
+        }
+
+        .search-box button {
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #f5a623, #e88d0c);
+            border: none;
+            border-radius: 10px;
+            color: #000;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .search-box button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(245, 166, 35, 0.4);
+        }
+
+        /* ============ FILTROS ============ */
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .filter-btn {
+            padding: 8px 18px;
+            border: 1px solid #444;
+            border-radius: 20px;
+            background: #16213e;
+            color: #ccc;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9em;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: #f5a623;
+            color: #000;
+            border-color: #f5a623;
+            font-weight: bold;
+        }
+
+        /* ============ STATS BAR ============ */
+        .stats-bar {
+            text-align: center;
+            padding: 10px;
+            color: #888;
+            font-size: 0.9em;
+        }
+
+        .stats-bar span {
+            color: #f5a623;
+            font-weight: bold;
+        }
+
+        /* ============ GRID DE ITEMS ============ */
+        .items-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px 40px;
+        }
+
+        .items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        /* ============ CARD DE ITEM ============ */
+        .item-card {
+            background: linear-gradient(145deg, #16213e, #1a1a3e);
+            border: 1px solid #333;
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .item-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .item-card.quality-poor { border-left: 4px solid #9d9d9d; }
+        .item-card.quality-common { border-left: 4px solid #ffffff; }
+        .item-card.quality-uncommon { border-left: 4px solid #1eff00; }
+        .item-card.quality-rare { border-left: 4px solid #0070dd; }
+        .item-card.quality-epic { border-left: 4px solid #a335ee; }
+        .item-card.quality-legendary { border-left: 4px solid #ff8000; }
+        .item-card.quality-artifact { border-left: 4px solid #e6cc80; }
+
+        .item-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .icon-wrapper {
+            position: relative;
+            width: 56px;
+            height: 56px;
+            flex-shrink: 0;
+        }
+
+        .icon-wrapper img {
+            width: 56px;
+            height: 56px;
+            border-radius: 8px;
+            border: 2px solid #555;
+            image-rendering: pixelated;
+            background: #000;
+        }
+
+        .item-card.quality-poor .icon-wrapper img { border-color: #9d9d9d; }
+        .item-card.quality-common .icon-wrapper img { border-color: #ffffff; }
+        .item-card.quality-uncommon .icon-wrapper img { border-color: #1eff00; }
+        .item-card.quality-rare .icon-wrapper img { border-color: #0070dd; }
+        .item-card.quality-epic .icon-wrapper img { border-color: #a335ee; }
+        .item-card.quality-legendary .icon-wrapper img { border-color: #ff8000; }
+        .item-card.quality-artifact .icon-wrapper img { border-color: #e6cc80; }
+
+        .item-name {
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+
+        .item-name.poor { color: #9d9d9d; }
+        .item-name.common { color: #ffffff; }
+        .item-name.uncommon { color: #1eff00; }
+        .item-name.rare { color: #0070dd; }
+        .item-name.epic { color: #a335ee; }
+        .item-name.legendary { color: #ff8000; }
+        .item-name.artifact { color: #e6cc80; }
+
+        .item-type {
+            font-size: 0.8em;
+            color: #888;
+            margin-top: 3px;
+        }
+
+        .item-details {
+            font-size: 0.85em;
+            color: #aaa;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .item-details .stat {
+            color: #1eff00;
+        }
+
+        .item-details .flavor {
+            color: #ffd100;
+            font-style: italic;
+        }
+
+        /* ============ BOTONES DE ACCIÓN ============ */
+        .item-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .btn-action {
+            padding: 8px 14px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85em;
+            font-weight: 600;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .btn-copy-url {
+            background: #0070dd;
+            color: white;
+        }
+
+        .btn-copy-url:hover {
+            background: #0090ff;
+        }
+
+        .btn-copy-icon {
+            background: #a335ee;
+            color: white;
+        }
+
+        .btn-copy-icon:hover {
+            background: #c355ff;
+        }
+
+        .btn-download {
+            background: #1eff00;
+            color: #000;
+        }
+
+        .btn-download:hover {
+            background: #40ff20;
+        }
+
+        .btn-copy-html {
+            background: #ff8000;
+            color: #000;
+        }
+
+        .btn-copy-html:hover {
+            background: #ffa040;
+        }
+
+        /* ============ TOAST NOTIFICATION ============ */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #1eff00;
+            color: #000;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 1em;
+            z-index: 9999;
+            transition: transform 0.4s ease;
+            box-shadow: 0 5px 30px rgba(30, 255, 0, 0.3);
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* ============ MODAL ============ */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal {
+            background: #16213e;
+            border: 2px solid #f5a623;
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+        }
+
+        .modal h2 {
+            color: #f5a623;
+            margin-bottom: 20px;
+        }
+
+        .modal img {
+            width: 128px;
+            height: 128px;
+            border-radius: 10px;
+            border: 3px solid #f5a623;
+            margin-bottom: 20px;
+            image-rendering: pixelated;
+            background: #000;
+        }
+
+        .modal .url-box {
+            background: #0f0f23;
+            border: 1px solid #444;
+            border-radius: 8px;
+            padding: 12px;
+            word-break: break-all;
+            color: #0070dd;
+            margin-bottom: 20px;
+            font-size: 0.85em;
+            text-align: left;
+        }
+
+        .modal .modal-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .modal .btn-action {
+            padding: 12px 20px;
+            font-size: 0.95em;
+        }
+
+        .btn-close-modal {
+            background: #444;
+            color: #fff;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.95em;
+            font-weight: 600;
+        }
+
+        .btn-close-modal:hover {
+            background: #666;
+        }
+
+        /* ============ LOADING ============ */
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+            color: #888;
+        }
+
+        .loading .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #333;
+            border-top-color: #f5a623;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* ============ EMPTY STATE ============ */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+
+        .empty-state .emoji {
+            font-size: 4em;
+            margin-bottom: 15px;
+        }
+
+        /* ============ CATEGORÍAS POPULARES ============ */
+        .popular-section {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px 20px;
+        }
+
+        .popular-section h2 {
+            color: #f5a623;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .popular-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .popular-tag {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #1a1a3e, #2d1b4e);
+            border: 1px solid #444;
+            border-radius: 8px;
+            color: #ccc;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9em;
+        }
+
+        .popular-tag:hover {
+            border-color: #f5a623;
+            color: #f5a623;
+            background: linear-gradient(135deg, #2a2a4e, #3d2b5e);
+        }
+
+        .popular-tag .tag-icon {
+            margin-right: 5px;
+        }
+
+        /* ============ PAGINACIÓN ============ */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 30px;
+            padding-bottom: 40px;
+        }
+
+        .page-btn {
+            padding: 10px 18px;
+            background: #16213e;
+            border: 1px solid #444;
+            border-radius: 8px;
+            color: #ccc;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .page-btn:hover,
+        .page-btn.active {
+            background: #f5a623;
+            color: #000;
+            border-color: #f5a623;
+        }
+
+        .page-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        /* ============ FOOTER ============ */
+        footer {
+            background: #0f0f23;
+            border-top: 1px solid #333;
+            padding: 20px;
+            text-align: center;
+            color: #555;
+            font-size: 0.85em;
+        }
+
+        footer a {
+            color: #f5a623;
+            text-decoration: none;
+        }
+
+        /* ============ RESPONSIVE ============ */
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 1.5em;
+            }
+
+            .search-box {
+                flex-direction: column;
+            }
+
+            .items-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .item-actions {
+                flex-direction: column;
+            }
+
+            .btn-action {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <h1>⚔️ <span>WoW</span> Icon Wiki</h1>
+        <p>Busca, visualiza y copia iconos de items de World of Warcraft para tu tienda</p>
+    </header>
+
+    <!-- BÚSQUEDA -->
+    <div class="search-container">
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="🔍 Buscar item... (ej: Thunderfury, Ashbringer, Hearthstone...)" autocomplete="off">
+            <button onclick="searchItems()">Buscar</button>
+        </div>
+        <div class="filters">
+            <button class="filter-btn active" data-filter="all" onclick="setFilter('all', this)">📦 Todos</button>
+            <button class="filter-btn" data-filter="weapon" onclick="setFilter('weapon', this)">⚔️ Armas</button>
+            <button class="filter-btn" data-filter="armor" onclick="setFilter('armor', this)">🛡️ Armadura</button>
+            <button class="filter-btn" data-filter="consumable" onclick="setFilter('consumable', this)">🧪 Consumibles</button>
+            <button class="filter-btn" data-filter="mount" onclick="setFilter('mount', this)">🐴 Monturas</button>
+            <button class="filter-btn" data-filter="pet" onclick="setFilter('pet', this)">🐾 Mascotas</button>
+            <button class="filter-btn" data-filter="misc" onclick="setFilter('misc', this)">✨ Miscelánea</button>
+        </div>
+    </div>
+
+    <!-- BÚSQUEDAS POPULARES -->
+    <div class="popular-section" id="popularSection">
+        <h2>🔥 Búsquedas populares</h2>
+        <div class="popular-tags">
+            <div class="popular-tag" onclick="quickSearch('Thunderfury')"><span class="tag-icon">⚡</span>Thunderfury</div>
+            <div class="popular-tag" onclick="quickSearch('Ashbringer')"><span class="tag-icon">✨</span>Ashbringer</div>
+            <div class="popular-tag" onclick="quickSearch('Warglaive')"><span class="tag-icon">🗡️</span>Warglaives</div>
+            <div class="popular-tag" onclick="quickSearch('Hearthstone')"><span class="tag-icon">🏠</span>Hearthstone</div>
+            <div class="popular-tag" onclick="quickSearch('Flask')"><span class="tag-icon">🧪</span>Flasks</div>
+            <div class="popular-tag" onclick="quickSearch('Tier')"><span class="tag-icon">👑</span>Tier Sets</div>
+            <div class="popular-tag" onclick="quickSearch('Mount')"><span class="tag-icon">🐉</span>Monturas</div>
+            <div class="popular-tag" onclick="quickSearch('Gem')"><span class="tag-icon">💎</span>Gemas</div>
+            <div class="popular-tag" onclick="quickSearch('Potion')"><span class="tag-icon">⚗️</span>Pociones</div>
+            <div class="popular-tag" onclick="quickSearch('Sword')"><span class="tag-icon">⚔️</span>Espadas</div>
+            <div class="popular-tag" onclick="quickSearch('Staff')"><span class="tag-icon">🪄</span>Bastones</div>
+            <div class="popular-tag" onclick="quickSearch('Shield')"><span class="tag-icon">🛡️</span>Escudos</div>
+            <div class="popular-tag" onclick="quickSearch('Ring')"><span class="tag-icon">💍</span>Anillos</div>
+            <div class="popular-tag" onclick="quickSearch('Trinket')"><span class="tag-icon">🔮</span>Trinkets</div>
+            <div class="popular-tag" onclick="quickSearch('Enchant')"><span class="tag-icon">✨</span>Encantamientos</div>
+        </div>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-bar" id="statsBar" style="display:none;">
+        Se encontraron <span id="resultCount">0</span> resultados
+    </div>
+
+    <!-- CONTENEDOR DE ITEMS -->
+    <div class="items-container">
+        <div class="items-grid" id="itemsGrid">
+            <!-- Items se cargan dinámicamente -->
+        </div>
+        <div id="loadingIndicator" class="loading" style="display:none;">
+            <div class="spinner"></div>
+            <p>Buscando items en Azeroth...</p>
+        </div>
+        <div id="emptyState" class="empty-state" style="display:none;">
+            <div class="emoji">🔍</div>
+            <h3>No se encontraron items</h3>
+            <p>Intenta con otro término de búsqueda</p>
+        </div>
+    </div>
+
+    <!-- PAGINACIÓN -->
+    <div class="pagination" id="pagination" style="display:none;"></div>
+
+    <!-- MODAL -->
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+        <div class="modal" onclick="event.stopPropagation()">
+            <h2 id="modalTitle">Item</h2>
+            <img id="modalIcon" src="" alt="Icon">
+            <div class="url-box" id="modalUrl"></div>
+            <div class="modal-actions">
+                <button class="btn-action btn-copy-url" onclick="copyFromModal('url')">📋 Copiar URL</button>
+                <button class="btn-action btn-copy-icon" onclick="copyFromModal('icon')">🖼️ Copiar Icono</button>
+                <button class="btn-action btn-download" onclick="downloadFromModal()">💾 Descargar</button>
+                <button class="btn-action btn-copy-html" onclick="copyFromModal('html')">📝 Copiar HTML</button>
+                <button class="btn-close-modal" onclick="closeModalDirect()">✖ Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST -->
+    <div class="toast" id="toast"></div>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>WoW Icon Wiki — Herramienta de iconos para tu tienda | Los iconos pertenecen a Blizzard Entertainment</p>
+        <p>Datos obtenidos de la API pública de <a href="https://develop.battle.net/" target="_blank">Blizzard</a> y <a href="https://www.wowhead.com/" target="_blank">Wowhead</a></p>
+    </footer>
+
+    <script>
+        // ============ CONFIGURACIÓN ============
+        const ICON_BASE_URL = 'https://wow.zamimg.com/images/wow/icons/large/';
+        const ICON_BASE_URL_MEDIUM = 'https://wow.zamimg.com/images/wow/icons/medium/';
+        const WOWHEAD_SEARCH_URL = 'https://www.wowhead.com/items?filter=151;2;';
+
+        let currentFilter = 'all';
+        let currentPage = 1;
+        let currentResults = [];
+        const ITEMS_PER_PAGE = 24;
+
+        // ============ BASE DE DATOS DE ITEMS POPULARES ============
+        const ITEMS_DATABASE = [
+            // ===== ARMAS LEGENDARIAS =====
+            { id: 19019, name: "Thunderfury, Blessed Blade of the Windseeker", icon: "inv_sword_39", quality: "legendary", type: "weapon", subtype: "Espada a una mano", level: 80, description: "La legendaria espada del Vigilante del Viento" },
+            { id: 17182, name: "Sulfuras, Hand of Ragnaros", icon: "inv_hammer_unique_sulfuras", quality: "legendary", type: "weapon", subtype: "Maza a dos manos", level: 80, description: "El martillo del Señor del Fuego" },
+            { id: 22691, name: "Corrupted Ashbringer", icon: "inv_sword_2h_ashbringercorrupt", quality: "legendary", type: "weapon", subtype: "Espada a dos manos", level: 60, description: "La Ashbringer corrompida" },
+            { id: 34334, name: "Thori'dal, the Stars' Fury", icon: "inv_bow_1h_sunwell_d_01", quality: "legendary", type: "weapon", subtype: "Arco", level: 70, description: "El arco legendario de Sunwell" },
+            { id: 32837, name: "Warglaive of Azzinoth (Main Hand)", icon: "inv_weapon_glave_01", quality: "legendary", type: "weapon", subtype: "Guja", level: 70, description: "Guja de guerra de Azzinoth" },
+            { id: 32838, name: "Warglaive of Azzinoth (Off Hand)", icon: "inv_weapon_glave_02", quality: "legendary", type: "weapon", subtype: "Guja", level: 70, description: "Guja de guerra de Azzinoth" },
+            { id: 49623, name: "Shadowmourne", icon: "inv_axe_113", quality: "legendary", type: "weapon", subtype: "Hacha a dos manos", level: 80, description: "La sombra de Frostmourne" },
+            { id: 71086, name: "Dragonwrath, Tarecgosa's Rest", icon: "staf_2h_tarecgosa_e_01stagefinal", quality: "legendary", type: "weapon", subtype: "Bastón", level: 85, description: "El bastón legendario de Tarecgosa" },
+            { id: 77949, name: "Golad, Twilight of Aspects", icon: "inv_knife_1h_deathwingraid_e_01", quality: "legendary", type: "weapon", subtype: "Daga", level: 85, description: "Daga legendaria de Dragon Soul" },
+            { id: 77950, name: "Tiriosh, Nightmare of Ages", icon: "inv_knife_1h_deathwingraid_e_02", quality: "legendary", type: "weapon", subtype: "Daga", level: 85, description: "Daga legendaria de Dragon Soul" },
+
+            // ===== ARMAS ÉPICAS ICÓNICAS =====
+            { id: 17204, name: "Eye of Sulfuras", icon: "inv_misc_gem_bloodstone_03", quality: "legendary", type: "misc", subtype: "Material legendario", level: 60, description: "Componente para Sulfuras" },
+            { id: 18348, name: "Quel'Serrar", icon: "inv_sword_43", quality: "epic", type: "weapon", subtype: "Espada a una mano", level: 60, description: "La espada de los Altos Elfos" },
+            { id: 19364, name: "Ashkandi, Greatsword of the Brotherhood", icon: "inv_sword_50", quality: "epic", type: "weapon", subtype: "Espada a dos manos", level: 60, description: "Gran espada de la Hermandad" },
+            { id: 17069, name: "Striker's Mark", icon: "inv_weapon_bow_06", quality: "epic", type: "weapon", subtype: "Arco", level: 60, description: "Marca del tirador" },
+            { id: 31336, name: "Blade of Wizardry", icon: "inv_sword_13", quality: "rare", type: "weapon", subtype: "Espada a una mano", level: 62, description: "Hoja de hechicería" },
+            { id: 2244, name: "Kang the Decapitator", icon: "inv_axe_07", quality: "epic", type: "weapon", subtype: "Hacha a dos manos", level: 44, description: "Kang el Decapitador" },
+            { id: 13262, name: "Ashbringer", icon: "inv_sword_ashbringer", quality: "legendary", type: "weapon", subtype: "Espada a dos manos", level: 60, description: "La legendaria Ashbringer" },
+            { id: 30311, name: "Warp Slicer", icon: "inv_sword_57", quality: "epic", type: "weapon", subtype: "Espada a una mano", level: 70, description: "Cortador dimensional" },
+            { id: 30312, name: "Infinity Blade", icon: "inv_sword_58", quality: "epic", type: "weapon", subtype: "Espada a una mano", level: 70, description: "Hoja del infinito" },
+            { id: 30313, name: "Staff of Disintegration", icon: "staff_30", quality: "epic", type: "weapon", subtype: "Bastón", level: 70, description: "Bastón de desintegración" },
+            { id: 30316, name: "Devastation", icon: "inv_sword_59", quality: "epic", type: "weapon", subtype: "Espada a dos manos", level: 70, description: "Devastación" },
+            { id: 30318, name: "Netherstrand Longbow", icon: "inv_weapon_bow_28", quality: "epic", type: "weapon", subtype: "Arco", level: 70, description: "Arco largo de Abissal" },
+            { id: 19019, name: "Frostmourne (Replica)", icon: "inv_sword_frostmourne", quality: "legendary", type: "weapon", subtype: "Espada a dos manos", level: 80, description: "La espada del Rey Exánime" },
+
+            // ===== BASTONES =====
+            { id: 22589, name: "Atiesh, Greatstaff of the Guardian", icon: "staf_2h_medivh_d_01", quality: "legendary", type: "weapon", subtype: "Bastón", level: 60, description: "Gran bastón del Guardián" },
+            { id: 17113, name: "Amberseal Keeper", icon: "inv_staff_02", quality: "epic", type: "weapon", subtype: "Bastón", level: 60, description: "Custodio de ámbar" },
+            { id: 18608, name: "Benediction", icon: "inv_staff_12", quality: "epic", type: "weapon", subtype: "Bastón", level: 60, description: "Benedición" },
+            { id: 18609, name: "Anathema", icon: "inv_staff_shadow", quality: "epic", type: "weapon", subtype: "Bastón", level: 60, description: "Anatema" },
+            { id: 30723, name: "Talon of Al'ar", icon: "inv_weapon_hand_12", quality: "epic", type: "weapon", subtype: "Puño", level: 70, description: "Garra de Al'ar" },
+
+            // ===== ARMADURA - CASCOS =====
+            { id: 16963, name: "Helm of Wrath", icon: "inv_helmet_06", quality: "epic", type: "armor", subtype: "Casco (Plate)", level: 60, description: "Yelmo de Cólera - Warrior T2" },
+            { id: 16939, name: "Dragonstalker's Helm", icon: "inv_helmet_53", quality: "epic", type: "armor", subtype: "Casco (Mail)", level: 60, description: "Yelmo de Cazadragones - Hunter T2" },
+            { id: 22498, name: "Dreadnaught Helmet", icon: "inv_helmet_74", quality: "epic", type: "armor", subtype: "Casco (Plate)", level: 60, description: "Casco Acorazado - Warrior T3" },
+            { id: 30120, name: "T5 Warrior Helm", icon: "inv_helmet_96", quality: "epic", type: "armor", subtype: "Casco (Plate)", level: 70, description: "Casco de Destructor" },
+            { id: 19375, name: "Mish'undare, Circlet of the Mind Flayer", icon: "inv_helmet_30", quality: "epic", type: "armor", subtype: "Casco (Cloth)", level: 60, description: "Diadema del Destripamentes" },
+            { id: 16914, name: "Netherwind Crown", icon: "inv_helmet_56", quality: "epic", type: "armor", subtype: "Casco (Cloth)", level: 60, description: "Corona de Vientoabisal - Mage T2" },
+
+            // ===== ARMADURA - SETS T1 y T2 =====
+            { id: 16861, name: "Bracers of Might", icon: "inv_bracer_19", quality: "epic", type: "armor", subtype: "Brazales (Plate)", level: 60, description: "Brazales de Poder - Warrior T1" },
+            { id: 16865, name: "Breastplate of Might", icon: "inv_chest_plate10", quality: "epic", type: "armor", subtype: "Pechera (Plate)", level: 60, description: "Coraza de Poder - Warrior T1" },
+            { id: 16845, name: "Cenarion Raiment", icon: "inv_chest_leather_03", quality: "epic", type: "armor", subtype: "Pechera (Leather)", level: 60, description: "Vestiduras Cenarion - Druid T1" },
+            { id: 16897, name: "Stormrage Chestguard", icon: "inv_chest_leather_08", quality: "epic", type: "armor", subtype: "Pechera (Leather)", level: 60, description: "Protector de Furiatempestad - Druid T2" },
+            { id: 16905, name: "Bloodfang Hood", icon: "inv_helmet_19", quality: "epic", type: "armor", subtype: "Casco (Leather)", level: 60, description: "Capucha Colmillo Sangriento - Rogue T2" },
+
+            // ===== ESCUDOS =====
+            { id: 19019, name: "Bulwark of Azzinoth", icon: "inv_shield_71", quality: "epic", type: "armor", subtype: "Escudo", level: 70, description: "Baluarte de Azzinoth" },
+            { id: 18347, name: "General's Battlegear Shield", icon: "inv_shield_05", quality: "epic", type: "armor", subtype: "Escudo", level: 60, description: "Escudo de batalla del General" },
+            { id: 19349, name: "Elementium Reinforced Bulwark", icon: "inv_shield_23", quality: "epic", type: "armor", subtype: "Escudo", level: 60, description: "Baluarte Reforzado de Elementium" },
+
+            // ===== ANILLOS Y JOYAS =====
+            { id: 19382, name: "Pure Elementium Band", icon: "inv_ring_hwl2", quality: "epic", type: "misc", subtype: "Anillo", level: 60, description: "Sortija de Elementium Puro" },
+            { id: 17063, name: "Band of Accuria", icon: "inv_jewelry_ring_51naxxramas", quality: "epic", type: "misc", subtype: "Anillo", level: 60, description: "Sortija de Precisión" },
+            { id: 18646, name: "The Eye of Divinity", icon: "inv_misc_eye_02", quality: "epic", type: "misc", subtype: "Miscelánea", level: 60, description: "El Ojo de Divinidad" },
+            { id: 23455, name: "Band of the Eternal Sage", icon: "inv_ring_eternalsage", quality: "epic", type: "misc", subtype: "Anillo", level: 70, description: "Sortija del Sabio Eterno" },
+
+            // ===== TRINKETS =====
+            { id: 19406, name: "Drake Fang Talisman", icon: "inv_jewelry_necklace_13", quality: "epic", type: "misc", subtype: "Trinket", level: 60, description: "Talismán de Colmillo de Draco" },
+            { id: 17063, name: "Renataki's Charm of Beasts", icon: "inv_jewelry_necklace_29", quality: "epic", type: "misc", subtype: "Trinket", level: 60, description: "Dije de bestias de Renataki" },
+            { id: 23207, name: "Mark of the Champion", icon: "inv_jewelry_talisman_08", quality: "epic", type: "misc", subtype: "Trinket", level: 60, description: "Marca del Campeón" },
+            { id: 28789, name: "Eye of Gruul", icon: "inv_misc_eye_01", quality: "epic", type: "misc", subtype: "Trinket", level: 70, description: "Ojo de Gruul" },
+            { id: 32505, name: "Madness of the Betrayer", icon: "inv_jewelry_trinketcloak_04", quality: "epic", type: "misc", subtype: "Trinket", level: 70, description: "Locura del Traidor" },
+            { id: 34427, name: "Blackened Naaru Sliver", icon: "inv_misc_ahnqirajtrinket_02", quality: "epic", type: "misc", subtype: "Trinket", level: 70, description: "Esquirla de Naaru ennegrecida" },
+
+            // ===== CONSUMIBLES - POCIONES =====
+            { id: 118, name: "Minor Healing Potion", icon: "inv_potion_49", quality: "common", type: "consumable", subtype: "Poción", level: 1, description: "Restaura 70 a 90 de vida" },
+            { id: 929, name: "Healing Potion", icon: "inv_potion_54", quality: "common", type: "consumable", subtype: "Poción", level: 12, description: "Restaura 280 a 360 de vida" },
+            { id: 1710, name: "Greater Healing Potion", icon: "inv_potion_52", quality: "common", type: "consumable", subtype: "Poción", level: 21, description: "Restaura 455 a 585 de vida" },
+            { id: 3928, name: "Superior Healing Potion", icon: "inv_potion_53", quality: "common", type: "consumable", subtype: "Poción", level: 35, description: "Restaura 700 a 900 de vida" },
+            { id: 13446, name: "Major Healing Potion", icon: "inv_potion_73", quality: "common", type: "consumable", subtype: "Poción", level: 45, description: "Restaura 1050 a 1750 de vida" },
+            { id: 22829, name: "Super Healing Potion", icon: "inv_potion_131", quality: "common", type: "consumable", subtype: "Poción", level: 55, description: "Restaura 1500 a 2500 de vida" },
+            { id: 2459, name: "Swiftness Potion", icon: "inv_potion_95", quality: "common", type: "consumable", subtype: "Poción", level: 5, description: "Aumenta velocidad un 50% durante 15s" },
+            { id: 6149, name: "Greater Mana Potion", icon: "inv_potion_76", quality: "common", type: "consumable", subtype: "Poción", level: 31, description: "Restaura 700 a 900 de maná" },
+            { id: 13443, name: "Superior Mana Potion", icon: "inv_potion_70", quality: "common", type: "consumable", subtype: "Poción", level: 41, description: "Restaura 900 a 1500 de maná" },
+            { id: 13444, name: "Major Mana Potion", icon: "inv_potion_76", quality: "common", type: "consumable", subtype: "Poción", level: 49, description: "Restaura 1350 a 2250 de maná" },
+            { id: 22832, name: "Super Mana Potion", icon: "inv_potion_137", quality: "common", type: "consumable", subtype: "Poción", level: 55, description: "Restaura 1800 a 3000 de maná" },
+            { id: 13442, name: "Mighty Rage Potion", icon: "inv_potion_41", quality: "common", type: "consumable", subtype: "Poción", level: 46, description: "Aumenta furia en 45 a 75" },
+
+            // ===== CONSUMIBLES - FLASKS =====
+            { id: 13510, name: "Flask of the Titans", icon: "inv_potion_62", quality: "uncommon", type: "consumable", subtype: "Frasco", level: 50, description: "+1200 vida durante 2 horas" },
+            { id: 13511, name: "Flask of Distilled Wisdom", icon: "inv_potion_97", quality: "uncommon", type: "consumable", subtype: "Frasco", level: 50, description: "+2000 maná durante 2 horas" },
+            { id: 13512, name: "Flask of Supreme Power", icon: "inv_potion_41", quality: "uncommon", type: "consumable", subtype: "Frasco", level: 50, description: "+150 daño con hechizos" },
+            { id: 13513, name: "Flask of Chromatic Resistance", icon: "inv_potion_48", quality: "uncommon", type: "consumable", subtype: "Frasco", level: 50, description: "+25 a todas las resistencias" },
+            { id: 22861, name: "Flask of Blinding Light", icon: "inv_potion_153", quality: "uncommon", type: "consumable", subtype: "Frasco", level: 65, description: "+80 daño Arcano, Sagrado y Naturaleza" },
+            { id: 22866, name: "Flask of Pure Death", icon: "inv_potion_09", quality: "uncommon", type: "consumable", subtype: "Frasco", level: 65, description: "+80 daño Sombra, Fuego y Escarcha" },
+
+            // ===== CONSUMIBLES - ELIXIRS =====
+            { id: 13452, name: "Elixir of the Mongoose", icon: "inv_potion_32", quality: "common", type: "consumable", subtype: "Elixir", level: 46, description: "+25 Agilidad y 2% Crítico" },
+            { id: 13453, name: "Elixir of Brute Force", icon: "inv_potion_40", quality: "common", type: "consumable", subtype: "Elixir", level: 46, description: "+18 Fuerza y Resistencia" },
+            { id: 13454, name: "Greater Arcane Elixir", icon: "inv_potion_25", quality: "common", type: "consumable", subtype: "Elixir", level: 47, description: "+35 Daño con hechizos" },
+
+            // ===== CONSUMIBLES - COMIDA =====
+            { id: 13931, name: "Nightfin Soup", icon: "inv_drink_17", quality: "common", type: "consumable", subtype: "Comida", level: 35, description: "Restaura 8 maná cada 5 segundos" },
+            { id: 20452, name: "Smoked Desert Dumplings", icon: "inv_misc_food_64", quality: "common", type: "consumable", subtype: "Comida", level: 45, description: "+20 Fuerza" },
+            { id: 21023, name: "Dirge's Kickin' Chimaerok Chops", icon: "inv_misc_food_65", quality: "common", type: "consumable", subtype: "Comida", level: 55, description: "+25 Resistencia" },
+
+            // ===== GEMAS =====
+            { id: 24027, name: "Bold Living Ruby", icon: "inv_jewelcrafting_livingruby_01", quality: "rare", type: "misc", subtype: "Gema Roja", level: 60, description: "+8 Fuerza" },
+            { id: 24028, name: "Delicate Living Ruby", icon: "inv_jewelcrafting_livingruby_03", quality: "rare", type: "misc", subtype: "Gema Roja", level: 60, description: "+8 Agilidad" },
+            { id: 24030, name: "Runed Living Ruby", icon: "inv_jewelcrafting_livingruby_02", quality: "rare", type: "misc", subtype: "Gema Roja", level: 60, description: "+9 Daño con hechizos" },
+            { id: 24032, name: "Solid Star of Elune", icon: "inv_jewelcrafting_starofelune_02", quality: "rare", type: "misc", subtype: "Gema Azul", level: 60, description: "+12 Resistencia" },
+            { id: 24048, name: "Inscribed Noble Topaz", icon: "inv_jewelcrafting_nobletopaz_03", quality: "rare", type: "misc", subtype: "Gema Naranja", level: 60, description: "+4 Fuerza, +4 Crítico" },
+            { id: 24054, name: "Rigid Dawnstone", icon: "inv_jewelcrafting_dawnstone_01", quality: "rare", type: "misc", subtype: "Gema Amarilla", level: 60, description: "+8 Golpe" },
+            { id: 24058, name: "Reckless Noble Topaz", icon: "inv_jewelcrafting_nobletopaz_01", quality: "rare", type: "misc", subtype: "Gema Naranja", level: 60, description: "+4 Daño con hechizos, +4 Celeridad" },
+            { id: 30547, name: "Crimson Spinel", icon: "inv_jewelcrafting_crimsonspinel_02", quality: "epic", type: "misc", subtype: "Gema Roja", level: 70, description: "Gema roja épica" },
+
+            // ===== MONTURAS =====
+            { id: 18902, name: "Reins of the Swift Razzashi Raptor", icon: "ability_mount_raptor", quality: "epic", type: "mount", subtype: "Montura", level: 60, description: "Raptor de Zul'Gurub" },
+            { id: 19872, name: "Reins of the Swift Zulian Tiger", icon: "ability_mount_jungletiger", quality: "epic", type: "mount", subtype: "Montura", level: 60, description: "Tigre de Zul'Gurub" },
+            { id: 13335, name: "Deathcharger's Reins", icon: "ability_mount_undeadhorse", quality: "epic", type: "mount", subtype: "Montura", level: 60, description: "Corcel de la Muerte del Barón" },
+            { id: 21176, name: "Black Qiraji Resonating Crystal", icon: "inv_misc_qirajicrystal_05", quality: "legendary", type: "mount", subtype: "Montura", level: 60, description: "Montura de AQ40" },
+            { id: 32458, name: "Ashes of Al'ar", icon: "inv_misc_summerfest_brazierorange", quality: "legendary", type: "mount", subtype: "Montura", level: 70, description: "Cenizas de Al'ar - Fénix" },
+            { id: 30480, name: "Fiery Warhorse's Reins", icon: "ability_mount_dreadsteed", quality: "epic", type: "mount", subtype: "Montura", level: 70, description: "Corcel de guerra ígneo de Karazhan" },
+            { id: 33809, name: "Amani War Bear", icon: "ability_druid_challangingroar", quality: "epic", type: "mount", subtype: "Montura", level: 70, description: "Oso de guerra Amani" },
+            { id: 43951, name: "Reins of the Bronze Drake", icon: "ability_mount_drake_bronze", quality: "epic", type: "mount", subtype: "Montura", level: 80, description: "Draco de bronce" },
+            { id: 43952, name: "Reins of the Azure Drake", icon: "ability_mount_drake_azure", quality: "epic", type: "mount", subtype: "Montura", level: 80, description: "Draco azul de Malygos" },
+            { id: 43953, name: "Reins of the Blue Drake", icon: "ability_mount_drake_blue", quality: "epic", type: "mount", subtype: "Montura", level: 80, description: "Draco azul" },
+            { id: 43959, name: "Reins of the Grand Black War Mammoth", icon: "ability_mount_mammoth_black", quality: "epic", type: "mount", subtype: "Montura", level: 80, description: "Mamut negro de guerra" },
+            { id: 44083, name: "Reins of the Grand Ice Mammoth", icon: "ability_mount_mammoth_white", quality: "epic", type: "mount", subtype: "Montura", level: 80, description: "Gran mamut de hielo" },
+            { id: 49636, name: "Reins of the Onyxian Drake", icon: "ability_mount_drake_twilight", quality: "epic", type: "mount", subtype: "Montura", level: 80, description: "Draco de Onyxia" },
+            { id: 50818, name: "Invincible's Reins", icon: "ability_mount_yourflyingmount", quality: "legendary", type: "mount", subtype: "Montura", level: 80, description: "Invencible - ICC" },
+            { id: 63041, name: "Reins of the Drake of the South Wind", icon: "ability_mount_drake_red", quality: "epic", type: "mount", subtype: "Montura", level: 85, description: "Draco del viento del sur" },
+            { id: 69224, name: "Smoldering Egg of Millagazor", icon: "inv_misc_egg_09", quality: "epic", type: "mount", subtype: "Montura", level: 85, description: "Huevo de Millagazor" },
+
+            // ===== MASCOTAS =====
+            { id: 8494, name: "Hyacinth Macaw", icon: "inv_feather_13", quality: "epic", type: "pet", subtype: "Mascota", level: 1, description: "Guacamayo Jacinto" },
+            { id: 8491, name: "Black Tabby Cat", icon: "spell_shadow_summonimp", quality: "uncommon", type: "pet", subtype: "Mascota", level: 1, description: "Gato atigrado negro" },
+            { id: 11474, name: "Sprite Darter Egg", icon: "inv_egg_02", quality: "uncommon", type: "pet", subtype: "Mascota", level: 1, description: "Huevo de hada sprite" },
+            { id: 34425, name: "Clockwork Rocket Bot", icon: "inv_crate_08", quality: "rare", type: "pet", subtype: "Mascota", level: 1, description: "Robot cohete de cuerda" },
+            { id: 39656, name: "Kirin Tor Familiar", icon: "inv_pet_lilsmoky", quality: "rare", type: "pet", subtype: "Mascota", level: 1, description: "Familiar de Kirin Tor" },
+            { id: 48120, name: "Li'l XT", icon: "inv_pet_lilxt", quality: "rare", type: "pet", subtype: "Mascota", level: 1, description: "Mini XT" },
+            { id: 49693, name: "Lil' KT", icon: "inv_pet_lilkelthuzad", quality: "rare", type: "pet", subtype: "Mascota", level: 1, description: "Mini Kel'Thuzad" },
+
+            // ===== MISCELÁNEA =====
+            { id: 6948, name: "Hearthstone", icon: "inv_misc_rune_01", quality: "common", type: "misc", subtype: "Miscelánea", level: 1, description: "Piedra de hogar" },
+            { id: 5976, name: "Guild Tabard", icon: "inv_shirt_guildtabard_01", quality: "common", type: "misc", subtype: "Tabardo", level: 1, description: "Tabardo de hermandad" },
+            { id: 17966, name: "Onyxia Hide Backpack", icon: "inv_misc_bag_07_green", quality: "epic", type: "misc", subtype: "Bolsa", level: 60, description: "Mochila de piel de Onyxia - 18 ranuras" },
+            { id: 38082, name: "Gigantique Bag", icon: "inv_misc_bag_10_green", quality: "epic", type: "misc", subtype: "Bolsa", level: 70, description: "Bolsa gigantesca - 22 ranuras" },
+            { id: 21525, name: "Green Qiraji Resonating Crystal", icon: "inv_misc_qirajicrystal_01", quality: "rare", type: "misc", subtype: "Montura AQ", level: 60, description: "Cristal resonante verde de AQ" },
+            { id: 12757, name: "Thorium Widget", icon: "inv_gizmo_03", quality: "common", type: "misc", subtype: "Componente", level: 40, description: "Artilugio de torio" },
+            { id: 7078, name: "Essence of Fire", icon: "spell_fire_lavaspawn", quality: "common", type: "misc", subtype: "Esencia", level: 0, description: "Esencia de fuego" },
+            { id: 7080, name: "Essence of Water", icon: "inv_potion_18", quality: "common", type: "misc", subtype: "Esencia", level: 0, description: "Esencia de agua" },
+            { id: 7082, name: "Essence of Earth", icon: "inv_ore_iron_01", quality: "common", type: "misc", subtype: "Esencia", level: 0, description: "Esencia de tierra" },
+            { id: 7076, name: "Essence of Air", icon: "spell_nature_cyclone", quality: "common", type: "misc", subtype: "Esencia", level: 0, description: "Esencia de aire" },
+            { id: 12655, name: "Enchant Weapon - Crusader", icon: "spell_holy_greaterheal", quality: "uncommon", type: "misc", subtype: "Encantamiento", level: 0, description: "Encantamiento Cruzado" },
+            { id: 16250, name: "Formula: Enchant Weapon - Superior Striking", icon: "inv_enchant_formulagood_01", quality: "uncommon", type: "misc", subtype: "Fórmula", level: 0, description: "Fórmula de encantamiento" },
+
+            // ===== MATERIALES DE CRAFTING =====
+            { id: 22456, name: "Primal Mooncloth", icon: "inv_fabric_moonrag_primal", quality: "uncommon", type: "misc", subtype: "Tela", level: 60, description: "Tela lunar primigenia" },
+            { id: 21886, name: "Primal Life", icon: "inv_elemental_primal_life", quality: "uncommon", type: "misc", subtype: "Primigenia", level: 60, description: "Primigenia de vida" },
+            { id: 22451, name: "Primal Air", icon: "inv_elemental_primal_air", quality: "uncommon", type: "misc", subtype: "Primigenia", level: 60, description: "Primigenia de aire" },
+            { id: 21884, name: "Primal Fire", icon: "inv_elemental_primal_fire", quality: "uncommon", type: "misc", subtype: "Primigenia", level: 60, description: "Primigenia de fuego" },
+            { id: 22452, name: "Primal Earth", icon: "inv_elemental_primal_earth", quality: "uncommon", type: "misc", subtype: "Primigenia", level: 60, description: "Primigenia de tierra" },
+            { id: 22457, name: "Primal Mana", icon: "inv_elemental_primal_mana", quality: "uncommon", type: "misc", subtype: "Primigenia", level: 60, description: "Primigenia de maná" },
+            { id: 21885, name: "Primal Water", icon: "inv_elemental_primal_water", quality: "uncommon", type: "misc", subtype: "Primigenia", level: 60, description: "Primigenia de agua" },
+            { id: 22449, name: "Primal Shadow", icon: "inv_elemental_primal_shadow", quality: "uncommon", type: "misc", subtype: "Primigenia", level: 60, description: "Primigenia de sombra" },
+            { id: 23572, name: "Primal Nether", icon: "inv_elemental_primal_nether", quality: "epic", type: "misc", subtype: "Primigenia", level: 70, description: "Primigenia de vacío" },
+            { id: 29434, name: "Badge of Justice", icon: "spell_holy_championsgrace", quality: "epic", type: "misc", subtype: "Token", level: 70, description: "Distintivo de justicia" },
+            { id: 40752, name: "Emblem of Heroism", icon: "spell_holy_proclaimchampion_02", quality: "epic", type: "misc", subtype: "Token", level: 80, description: "Emblema de heroísmo" },
+            { id: 40753, name: "Emblem of Valor", icon: "spell_holy_proclaimchampion", quality: "epic", type: "misc", subtype: "Token", level: 80, description: "Emblema de valor" },
+            { id: 47241, name: "Emblem of Triumph", icon: "spell_holy_youreworthit", quality: "epic", type: "misc", subtype: "Token", level: 80, description: "Emblema de triunfo" },
+            { id: 49426, name: "Emblem of Frost", icon: "spell_holy_youreworthit", quality: "epic", type: "misc", subtype: "Token", level: 80, description: "Emblema de escarcha" },
+
+            // ===== LIBROS / ENCANTAMIENTOS =====
+            { id: 18264, name: "Plans: Elemental Sharpening Stone", icon: "inv_scroll_03", quality: "rare", type: "misc", subtype: "Planos", level: 0, description: "Planos: Piedra de afilar elemental" },
+        ];
+
+        // ============ FUNCIONES ============
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+
+        function getIconUrl(iconName, size = 'large') {
+            const base = size === 'large' ? ICON_BASE_URL : ICON_BASE_URL_MEDIUM;
+            return `${base}${iconName}.jpg`;
+        }
+
+        function getQualityClass(quality) {
+            return `quality-${quality}`;
+        }
+
+        function createItemCard(item) {
+            const iconUrl = getIconUrl(item.icon);
+            const card = document.createElement('div');
+            card.className = `item-card ${getQualityClass(item.quality)}`;
+            card.innerHTML = `
+                <div class="item-header">
+                    <div class="icon-wrapper">
+                        <img src="${iconUrl}" alt="${item.name}" 
+                             onerror="this.src='https://wow.zamimg.com/images/wow/icons/large/inv_misc_questionmark.jpg'"
+                             loading="lazy"
+                             title="Click para ampliar"
+                             style="cursor:pointer"
+                             onclick="openModal('${item.name}', '${item.icon}', '${item.quality}')">
+                    </div>
+                    <div>
+                        <div class="item-name ${item.quality}">${item.name}</div>
+                        <div class="item-type">${item.subtype} ${item.level > 0 ? '• Nivel ' + item.level : ''}</div>
+                    </div>
+                </div>
+                <div class="item-details">
+                    <div class="flavor">"${item.description}"</div>
+                </div>
+                <div class="item-actions">
+                    <button class="btn-action btn-copy-url" onclick="copyIconUrl('${item.icon}')">
+                        📋 URL
+                    </button>
+                    <button class="btn-action btn-copy-icon" onclick="copyIconToClipboard('${item.icon}', '${item.name}')">
+                        🖼️ Copiar Icono
+                    </button>
+                    <button class="btn-action btn-download" onclick="downloadIcon('${item.icon}', '${item.name}')">
+                        💾 Descargar
+                    </button>
+                    <button class="btn-action btn-copy-html" onclick="copyHtml('${item.icon}', '${item.name.replace(/'/g, "\\'")}')">
+                        📝 HTML
+                    </button>
+                </div>
+            `;
+            return card;
+        }
+
+        // Copiar URL del icono
+        function copyIconUrl(iconName) {
+            const url = getIconUrl(iconName);
+            navigator.clipboard.writeText(url).then(() => {
+                showToast('✅ URL del icono copiada al portapapeles');
+            }).catch(() => {
+                // Fallback
+                const textarea = document.createElement('textarea');
+                textarea.value = url;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                showToast('✅ URL del icono copiada al portapapeles');
+            });
+        }
+
+        // Copiar imagen al portapapeles
+        async function copyIconToClipboard(iconName, itemName) {
+            const url = getIconUrl(iconName);
+            try {
+                const response = await fetch(url);
+                const blob = await response.blob();
+                
+                // Convertir a PNG para compatibilidad
+                const img = new Image();
+                img.crossOrigin = 'anonymous';
+                img.src = URL.createObjectURL(blob);
+                
+                await new Promise((resolve) => {
+                    img.onload = resolve;
+                });
+
+                const canvas = document.createElement('canvas');
+                canvas.width = img.width;
+                canvas.height = img.height;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0);
+
+                canvas.toBlob(async (pngBlob) => {
+                    try {
+                        await navigator.clipboard.write([
+                            new ClipboardItem({ 'image/png': pngBlob })
+                        ]);
+                        showToast(`✅ Icono de "${itemName}" copiado - ¡Pégalo con Ctrl+V!`);
+                    } catch (e) {
+                        // Si no se puede copiar imagen, copiar URL
+                        copyIconUrl(iconName);
+                    }
+                }, 'image/png');
+                
+                URL.revokeObjectURL(img.src);
+            } catch (e) {
+                copyIconUrl(iconName);
+            }
+        }
+
+        // Descargar icono
+        function downloadIcon(iconName, itemName) {
+            const url = getIconUrl(iconName);
+            const safeName = itemName.replace(/[^a-zA-Z0-9]/g, '_');
+            
+            fetch(url)
+                .then(response => response.blob())
+                .then(blob => {
+                    const link = document.createElement('a');
+                    link.href = URL.createObjectURL(blob);
+                    link.download = `${safeName}_icon.jpg`;
+                    link.click();
+                    URL.revokeObjectURL(link.href);
+                    showToast(`✅ Descargando icono de "${itemName}"`);
+                })
+                .catch(() => {
+                    // Fallback: abrir en nueva pestaña
+                    window.open(url, '_blank');
+                    showToast('📥 Icono abierto en nueva pestaña - Guárdalo con clic derecho');
+                });
+        }
+
+        // Copiar HTML de la imagen
+        function copyHtml(iconName, itemName) {
+            const url = getIconUrl(iconName);
+            const html = `<img src="${url}" alt="${itemName}" width="56" height="56" style="border-radius:4px;">`;
+            navigator.clipboard.writeText(html).then(() => {
+                showToast('✅ HTML del icono copiado');
+            }).catch(() => {
+                const textarea = document.createElement('textarea');
+                textarea.value = html;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                showToast('✅ HTML del icono copiado');
+            });
+        }
+
+        // ============ MODAL ============
+
+        function openModal(name, iconName, quality) {
+            const url = getIconUrl(iconName);
+            document.getElementById('modalTitle').textContent = name;
+            document.getElementById('modalTitle').className = quality;
+            document.getElementById('modalIcon').src = url;
+            document.getElementById('modalUrl').textContent = url;
+            document.getElementById('modalOverlay').classList.add('show');
+            
+            // Guardar datos para las acciones del modal
+            document.getElementById('modalOverlay').dataset.icon = iconName;
+            document.getElementById('modalOverlay').dataset.name = name;
+        }
+
+        function closeModal(event) {
+            if (event.target === document.getElementById('modalOverlay')) {
+                document.getElementById('modalOverlay').classList.remove('show');
+            }
+        }
+
+        function closeModalDirect() {
+            document.getElementById('modalOverlay').classList.remove('show');
+        }
+
+        function copyFromModal(type) {
+            const overlay = document.getElementById('modalOverlay');
+            const iconName = overlay.dataset.icon;
+            const name = overlay.dataset.name;
+
+            switch(type) {
+                case 'url': copyIconUrl(iconName); break;
+                case 'icon': copyIconToClipboard(iconName, name); break;
+                case 'html': copyHtml(iconName, name); break;
+            }
+        }
+
+        function downloadFromModal() {
+            const overlay = document.getElementById('modalOverlay');
+            downloadIcon(overlay.dataset.icon, overlay.dataset.name);
+        }
+
+        // ============ BÚSQUEDA Y FILTROS ============
+
+        function setFilter(filter, btn) {
+            currentFilter = filter;
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            if (currentResults.length > 0) {
+                filterAndDisplay();
+            } else {
+                displayDefaultItems();
+            }
+        }
+
+        function searchItems() {
+            const query = document.getElementById('searchInput').value.trim().toLowerCase();
+            
+            if (query.length === 0) {
+                displayDefaultItems();
+                return;
+            }
+
+            document.getElementById('popularSection').style.display = 'none';
+            document.getElementById('loadingIndicator').style.display = 'block';
+            document.getElementById('itemsGrid').innerHTML = '';
+            document.getElementById('statsBar').style.display = 'none';
+            
+            // Simular búsqueda
+            setTimeout(() => {
+                currentResults = ITEMS_DATABASE.filter(item => {
+                    const matchesQuery = item.name.toLowerCase().includes(query) ||
+                                        item.description.toLowerCase().includes(query) ||
+                                        item.subtype.toLowerCase().includes(query) ||
+                                        item.icon.toLowerCase().includes(query);
+                    return matchesQuery;
+                });
+
+                // También buscar por la API de Wowhead (iconos adicionales)
+                searchWowheadIcons(query);
+
+                document.getElementById('loadingIndicator').style.display = 'none';
+                filterAndDisplay();
+            }, 300);
+        }
+
+        function searchWowheadIcons(query) {
+            // Añadir resultados basados en nombres de iconos comunes
+            const commonIcons = generateCommonIcons(query);
+            commonIcons.forEach(icon => {
+                // Evitar duplicados
+                if (!currentResults.find(r => r.icon === icon.icon)) {
+                    currentResults.push(icon);
+                }
+            });
+        }
+
+        function generateCommonIcons(query) {
+            const results = [];
+            const iconPrefixes = {
+                'sword': ['inv_sword_01', 'inv_sword_02', 'inv_sword_04', 'inv_sword_05', 'inv_sword_06', 'inv_sword_07', 'inv_sword_08', 'inv_sword_09', 'inv_sword_10', 'inv_sword_11', 'inv_sword_12', 'inv_sword_14', 'inv_sword_15', 'inv_sword_16', 'inv_sword_17', 'inv_sword_18', 'inv_sword_19', 'inv_sword_20', 'inv_sword_25', 'inv_sword_26', 'inv_sword_27', 'inv_sword_30', 'inv_sword_35', 'inv_sword_36', 'inv_sword_37', 'inv_sword_38', 'inv_sword_39', 'inv_sword_40', 'inv_sword_41', 'inv_sword_42', 'inv_sword_43', 'inv_sword_44', 'inv_sword_46', 'inv_sword_48', 'inv_sword_50', 'inv_sword_51', 'inv_sword_53', 'inv_sword_55', 'inv_sword_56', 'inv_sword_57', 'inv_sword_58', 'inv_sword_59', 'inv_sword_60', 'inv_sword_65', 'inv_sword_68', 'inv_sword_70'],
+                'axe': ['inv_axe_01', 'inv_axe_02', 'inv_axe_03', 'inv_axe_04', 'inv_axe_06', 'inv_axe_07', 'inv_axe_08', 'inv_axe_09', 'inv_axe_10', 'inv_axe_11', 'inv_axe_12', 'inv_axe_13', 'inv_axe_14', 'inv_axe_15', 'inv_axe_16', 'inv_axe_17', 'inv_axe_18', 'inv_axe_19', 'inv_axe_22', 'inv_axe_23', 'inv_axe_65', 'inv_axe_66', 'inv_axe_67', 'inv_axe_113'],
+                'mace': ['inv_mace_01', 'inv_mace_02', 'inv_mace_04', 'inv_mace_05', 'inv_mace_06', 'inv_mace_07', 'inv_mace_08', 'inv_mace_09', 'inv_mace_10', 'inv_mace_11', 'inv_mace_12', 'inv_mace_13', 'inv_mace_14', 'inv_mace_15'],
+                'staff': ['inv_staff_01', 'inv_staff_02', 'inv_staff_06', 'inv_staff_07', 'inv_staff_08', 'inv_staff_09', 'inv_staff_10', 'inv_staff_11', 'inv_staff_12', 'inv_staff_13', 'inv_staff_14', 'inv_staff_27', 'inv_staff_29', 'inv_staff_30', 'inv_staff_goldfeathered_01', 'inv_staff_shadow'],
+                'shield': ['inv_shield_01', 'inv_shield_02', 'inv_shield_03', 'inv_shield_04', 'inv_shield_05', 'inv_shield_06', 'inv_shield_07', 'inv_shield_08', 'inv_shield_09', 'inv_shield_10', 'inv_shield_11', 'inv_shield_15', 'inv_shield_23', 'inv_shield_28', 'inv_shield_30', 'inv_shield_35', 'inv_shield_55', 'inv_shield_71'],
+                'bow': ['inv_weapon_bow_01', 'inv_weapon_bow_02', 'inv_weapon_bow_05', 'inv_weapon_bow_06', 'inv_weapon_bow_07', 'inv_weapon_bow_08', 'inv_weapon_bow_09', 'inv_weapon_bow_10', 'inv_weapon_bow_11', 'inv_weapon_bow_12', 'inv_weapon_bow_15', 'inv_weapon_bow_28'],
+                'dagger': ['inv_weapon_shortblade_01', 'inv_weapon_shortblade_02', 'inv_weapon_shortblade_03', 'inv_weapon_shortblade_04', 'inv_weapon_shortblade_05', 'inv_weapon_shortblade_06', 'inv_weapon_shortblade_07', 'inv_weapon_shortblade_08', 'inv_weapon_shortblade_15', 'inv_weapon_shortblade_18', 'inv_weapon_shortblade_25'],
+                'helmet': ['inv_helmet_01', 'inv_helmet_02', 'inv_helmet_03', 'inv_helmet_04', 'inv_helmet_05', 'inv_helmet_06', 'inv_helmet_07', 'inv_helmet_08', 'inv_helmet_09', 'inv_helmet_10', 'inv_helmet_15', 'inv_helmet_19', 'inv_helmet_20', 'inv_helmet_25', 'inv_helmet_30', 'inv_helmet_44', 'inv_helmet_46', 'inv_helmet_49', 'inv_helmet_51', 'inv_helmet_52', 'inv_helmet_53', 'inv_helmet_56', 'inv_helmet_66', 'inv_helmet_74'],
+                'chest': ['inv_chest_plate01', 'inv_chest_plate02', 'inv_chest_plate03', 'inv_chest_plate04', 'inv_chest_plate05', 'inv_chest_plate06', 'inv_chest_plate08', 'inv_chest_plate10', 'inv_chest_chain_03', 'inv_chest_chain_04', 'inv_chest_chain_05', 'inv_chest_chain_09', 'inv_chest_leather_01', 'inv_chest_leather_02', 'inv_chest_leather_03', 'inv_chest_leather_04', 'inv_chest_leather_08', 'inv_chest_cloth_01', 'inv_chest_cloth_02', 'inv_chest_cloth_03', 'inv_chest_cloth_04', 'inv_chest_cloth_10', 'inv_chest_cloth_17', 'inv_chest_cloth_43'],
+                'potion': ['inv_potion_01', 'inv_potion_03', 'inv_potion_04', 'inv_potion_09', 'inv_potion_11', 'inv_potion_13', 'inv_potion_14', 'inv_potion_18', 'inv_potion_20', 'inv_potion_21', 'inv_potion_23', 'inv_potion_24', 'inv_potion_25', 'inv_potion_27', 'inv_potion_29', 'inv_potion_31', 'inv_potion_32', 'inv_potion_33', 'inv_potion_37', 'inv_potion_40', 'inv_potion_41', 'inv_potion_42', 'inv_potion_47', 'inv_potion_48', 'inv_potion_49', 'inv_potion_50', 'inv_potion_51', 'inv_potion_52', 'inv_potion_53', 'inv_potion_54', 'inv_potion_62', 'inv_potion_70', 'inv_potion_72', 'inv_potion_73', 'inv_potion_76', 'inv_potion_79', 'inv_potion_86', 'inv_potion_89', 'inv_potion_91', 'inv_potion_95', 'inv_potion_97', 'inv_potion_100', 'inv_potion_117', 'inv_potion_119', 'inv_potion_124', 'inv_potion_126', 'inv_potion_128', 'inv_potion_131', 'inv_potion_135', 'inv_potion_137', 'inv_potion_138', 'inv_potion_141', 'inv_potion_146', 'inv_potion_150', 'inv_potion_153', 'inv_potion_155', 'inv_potion_162'],
+                'gem': ['inv_misc_gem_variety_01', 'inv_misc_gem_variety_02', 'inv_misc_gem_ruby_01', 'inv_misc_gem_ruby_02', 'inv_misc_gem_ruby_03', 'inv_misc_gem_sapphire_01', 'inv_misc_gem_sapphire_02', 'inv_misc_gem_sapphire_03', 'inv_misc_gem_emerald_01', 'inv_misc_gem_emerald_02', 'inv_misc_gem_emerald_03', 'inv_misc_gem_opal_01', 'inv_misc_gem_opal_02', 'inv_misc_gem_opal_03', 'inv_misc_gem_diamond_01', 'inv_misc_gem_diamond_02', 'inv_misc_gem_diamond_07', 'inv_misc_gem_bloodstone_01', 'inv_misc_gem_bloodstone_02', 'inv_misc_gem_bloodstone_03', 'inv_misc_gem_pearl_03', 'inv_misc_gem_pearl_05', 'inv_misc_gem_pearl_06', 'inv_misc_gem_crystal_01', 'inv_misc_gem_crystal_02', 'inv_misc_gem_crystal_03', 'inv_misc_gem_amethyst_01', 'inv_misc_gem_amethyst_02', 'inv_misc_gem_topaz_01', 'inv_misc_gem_topaz_02', 'inv_jewelcrafting_livingruby_01', 'inv_jewelcrafting_livingruby_02', 'inv_jewelcrafting_livingruby_03', 'inv_jewelcrafting_starofelune_01', 'inv_jewelcrafting_starofelune_02', 'inv_jewelcrafting_starofelune_03', 'inv_jewelcrafting_talasite_01', 'inv_jewelcrafting_talasite_02', 'inv_jewelcrafting_talasite_03', 'inv_jewelcrafting_nobletopaz_01', 'inv_jewelcrafting_nobletopaz_02', 'inv_jewelcrafting_nobletopaz_03', 'inv_jewelcrafting_dawnstone_01', 'inv_jewelcrafting_dawnstone_02', 'inv_jewelcrafting_dawnstone_03', 'inv_jewelcrafting_nightseye_01', 'inv_jewelcrafting_nightseye_02', 'inv_jewelcrafting_nightseye_03', 'inv_jewelcrafting_crimsonspinel_01', 'inv_jewelcrafting_crimsonspinel_02'],
+                'ring': ['inv_jewelry_ring_01', 'inv_jewelry_ring_02', 'inv_jewelry_ring_03', 'inv_jewelry_ring_04', 'inv_jewelry_ring_05', 'inv_jewelry_ring_06', 'inv_jewelry_ring_07', 'inv_jewelry_ring_14', 'inv_jewelry_ring_15', 'inv_jewelry_ring_16', 'inv_jewelry_ring_18', 'inv_jewelry_ring_22', 'inv_jewelry_ring_27', 'inv_jewelry_ring_33', 'inv_jewelry_ring_36', 'inv_jewelry_ring_38', 'inv_ring_hwl2', 'inv_ring_eternalsage'],
+                'trinket': ['inv_jewelry_trinketcloak_01', 'inv_jewelry_trinketcloak_02', 'inv_jewelry_trinketcloak_03', 'inv_jewelry_trinketcloak_04', 'inv_jewelry_talisman_01', 'inv_jewelry_talisman_02', 'inv_jewelry_talisman_03', 'inv_jewelry_talisman_04', 'inv_jewelry_talisman_06', 'inv_jewelry_talisman_07', 'inv_jewelry_talisman_08', 'inv_jewelry_talisman_10', 'inv_jewelry_necklace_01', 'inv_jewelry_necklace_02', 'inv_jewelry_necklace_03', 'inv_jewelry_necklace_04', 'inv_jewelry_necklace_05', 'inv_jewelry_necklace_13', 'inv_jewelry_necklace_17', 'inv_jewelry_necklace_29'],
+                'mount': ['ability_mount_ridinghorse', 'ability_mount_blackdirewolf', 'ability_mount_charger', 'ability_mount_dreadsteed', 'ability_mount_drake_azure', 'ability_mount_drake_blue', 'ability_mount_drake_bronze', 'ability_mount_drake_red', 'ability_mount_drake_twilight', 'ability_mount_feldrake', 'ability_mount_jungletiger', 'ability_mount_mammoth_black', 'ability_mount_mammoth_white', 'ability_mount_mechastrider', 'ability_mount_mountainram', 'ability_mount_netherdrakepurple', 'ability_mount_raptor', 'ability_mount_undeadhorse', 'ability_mount_whitetiger', 'ability_mount_yourflyingmount'],
+                'enchant': ['inv_enchant_formulagood_01', 'inv_enchant_formulagood_02', 'inv_enchant_formulasuperior_01', 'inv_enchant_formulasuperior_02', 'inv_enchant_essenceeternallarge', 'inv_enchant_essenceeternalsmall', 'inv_enchant_essencenethersmall', 'inv_enchant_essencenetherlarge', 'inv_enchant_essenceastralsmall', 'inv_enchant_essenceastrallarge', 'inv_enchant_essencemysticalsmall', 'inv_enchant_essencemysticallarge', 'inv_enchant_dustdream', 'inv_enchant_dustillusion', 'inv_enchant_dustsoul', 'inv_enchant_dustarcane', 'inv_enchant_shardbrilliantsmall', 'inv_enchant_shardbrilliantlarge', 'inv_enchant_shardnexuslarge', 'inv_enchant_shardnexussmall', 'inv_enchant_shardprismaticlarge', 'inv_enchant_shardprismaticsmall', 'inv_enchant_voidsphere'],
+                'food': ['inv_misc_food_01', 'inv_misc_food_02', 'inv_misc_food_03', 'inv_misc_food_04', 'inv_misc_food_05', 'inv_misc_food_06', 'inv_misc_food_07', 'inv_misc_food_08', 'inv_misc_food_09', 'inv_misc_food_10', 'inv_misc_food_11', 'inv_misc_food_12', 'inv_misc_food_13', 'inv_misc_food_14', 'inv_misc_food_15', 'inv_misc_food_47', 'inv_misc_food_49', 'inv_misc_food_50', 'inv_misc_food_53', 'inv_misc_food_58', 'inv_misc_food_60', 'inv_misc_food_62', 'inv_misc_food_64', 'inv_misc_food_65', 'inv_misc_food_67', 'inv_misc_food_68', 'inv_misc_food_69', 'inv_misc_food_70', 'inv_misc_food_72', 'inv_misc_food_73'],
+            };
+
+            for (const [key, icons] of Object.entries(iconPrefixes)) {
+                if (key.includes(query) || query.includes(key)) {
+                    icons.forEach((icon, index) => {
+                        results.push({
+                            id: 100000 + index,
+                            name: `${key.charAt(0).toUpperCase() + key.slice(1)} Icon #${index + 1}`,
+                            icon: icon,
+                            quality: 'common',
+                            type: key === 'potion' || key === 'food' ? 'consumable' : 
+                                  key === 'mount' ? 'mount' : 
+                                  key === 'ring' || key === 'trinket' || key === 'gem' || key === 'enchant' ? 'misc' :
+                                  key === 'helmet' || key === 'chest' || key === 'shield' ? 'armor' : 'weapon',
+                            subtype: key.charAt(0).toUpperCase() + key.slice(1),
+                            level: 0,
+                            description: `Icono: ${icon}`
+                        });
+                    });
+                }
+            }
+
+            return results;
+        }
+
+        function filterAndDisplay() {
+            let filtered = currentResults;
+            
+            if (currentFilter !== 'all') {
+                filtered = currentResults.filter(item => item.type === currentFilter);
+            }
+
+            document.getElementById('statsBar').style.display = 'block';
+            document.getElementById('resultCount').textContent = filtered.length;
+
+            if (filtered.length === 0) {
+                document.getElementById('itemsGrid').innerHTML = '';
+                document.getElementById('emptyState').style.display = 'block';
+                document.getElementById('pagination').style.display = 'none';
+                return;
+            }
+
+            document.getElementById('emptyState').style.display = 'none';
+            
+            // Paginación
+            const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
+            if (currentPage > totalPages) currentPage = 1;
+            
+            const start = (currentPage - 1) * ITEMS_PER_PAGE;
+            const end = start + ITEMS_PER_PAGE;
+            const pageItems = filtered.slice(start, end);
+
+            const grid = document.getElementById('itemsGrid');
+            grid.innerHTML = '';
+            pageItems.forEach(item => {
+                grid.appendChild(createItemCard(item));
+            });
+
+            renderPagination(totalPages);
+        }
+
+        function renderPagination(totalPages) {
+            const container = document.getElementById('pagination');
+            
+            if (totalPages <= 1) {
+                container.style.display = 'none';
+                return;
+            }
+
+            container.style.display = 'flex';
+            container.innerHTML = '';
+
+            // Anterior
+            const prevBtn = document.createElement('button');
+            prevBtn.className = 'page-btn';
+            prevBtn.textContent = '← Anterior';
+            prevBtn.disabled = currentPage === 1;
+            prevBtn.onclick = () => { currentPage--; filterAndDisplay(); window.scrollTo(0, 300); };
+            container.appendChild(prevBtn);
+
+            // Números de página
+            for (let i = 1; i <= totalPages; i++) {
+                if (totalPages > 7 && i > 3 && i < totalPages - 2 && Math.abs(i - currentPage) > 1) {
+                    if (i === 4 || i === totalPages - 3) {
+                        const dots = document.createElement('span');
+                        dots.className = 'page-btn';
+                        dots.textContent = '...';
+                        dots.style.cursor = 'default';
+                        container.appendChild(dots);
+                    }
+                    continue;
+                }
+                const btn = document.createElement('button');
+                btn.className = `page-btn ${i === currentPage ? 'active' : ''}`;
+                btn.textContent = i;
+                btn.onclick = () => { currentPage = i; filterAndDisplay(); window.scrollTo(0, 300); };
+                container.appendChild(btn);
+            }
+
+            // Siguiente
+            const nextBtn = document.createElement('button');
+            nextBtn.className = 'page-btn';
+            nextBtn.textContent = 'Siguiente →';
+            nextBtn.disabled = currentPage === totalPages;
+            nextBtn.onclick = () => { currentPage++; filterAndDisplay(); window.scrollTo(0, 300); };
+            container.appendChild(nextBtn);
+        }
+
+        function quickSearch(term) {
+            document.getElementById('searchInput').value = term;
+            searchItems();
+        }
+
+        function displayDefaultItems() {
+            document.getElementById('popularSection').style.display = 'block';
+            document.getElementById('statsBar').style.display = 'none';
+            document.getElementById('emptyState').style.display = 'none';
+            
+            // Mostrar items populares por defecto
+            currentResults = [...ITEMS_DATABASE];
+            currentPage = 1;
+            filterAndDisplay();
+        }
+
+        // ============ EVENTOS ============
+
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') searchItems();
+        });
+
+        // Auto-búsqueda mientras escribes
+        let searchTimeout;
+        document.getElementById('searchInput').addEventListener('input', function() {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                if (this.value.length >= 2) {
+                    searchItems();
+                } else if (this.value.length === 0) {
+                    displayDefaultItems();
+                }
+            }, 400);
+        });
+
+        // Cerrar modal con Escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.getElementById('modalOverlay').classList.remove('show');
+            }
+        });
+
+        // ============ INICIALIZAR ============
+        displayDefaultItems();
+    </script>
+</body>
+</html>
