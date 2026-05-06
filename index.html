@@ -477,6 +477,7 @@
             gap: 10px;
             margin-top: 30px;
             padding-bottom: 40px;
+            flex-wrap: wrap;
         }
 
         .page-btn {
@@ -551,7 +552,7 @@
     <!-- BÚSQUEDA -->
     <div class="search-container">
         <div class="search-box">
-            <input type="text" id="searchInput" placeholder="🔍 Buscar item... (ej: Thunderfury, Ashbringer, Hearthstone...)" autocomplete="off">
+            <input type="text" id="searchInput" placeholder="🔍 Buscar item... (ej: Thunderfury, Spectral Tiger, Hearthstone...)" autocomplete="off">
             <button onclick="searchItems()">Buscar</button>
         </div>
         <div class="filters">
@@ -561,6 +562,7 @@
             <button class="filter-btn" data-filter="consumable" onclick="setFilter('consumable', this)">🧪 Consumibles</button>
             <button class="filter-btn" data-filter="mount" onclick="setFilter('mount', this)">🐴 Monturas</button>
             <button class="filter-btn" data-filter="pet" onclick="setFilter('pet', this)">🐾 Mascotas</button>
+            <button class="filter-btn" data-filter="tcg" onclick="setFilter('tcg', this)">🎴 TCG (Cartas)</button>
             <button class="filter-btn" data-filter="misc" onclick="setFilter('misc', this)">✨ Miscelánea</button>
         </div>
     </div>
@@ -578,12 +580,15 @@
             <div class="popular-tag" onclick="quickSearch('Mount')"><span class="tag-icon">🐉</span>Monturas</div>
             <div class="popular-tag" onclick="quickSearch('Gem')"><span class="tag-icon">💎</span>Gemas</div>
             <div class="popular-tag" onclick="quickSearch('Potion')"><span class="tag-icon">⚗️</span>Pociones</div>
+            <div class="popular-tag" onclick="quickSearch('TCG')"><span class="tag-icon">🎴</span>TCG / Cartas</div>
+            <div class="popular-tag" onclick="quickSearch('Spectral')"><span class="tag-icon">🐅</span>Tigre Espectral</div>
+            <div class="popular-tag" onclick="quickSearch('Hippogryph')"><span class="tag-icon">🦅</span>Hipogrifo</div>
+            <div class="popular-tag" onclick="quickSearch('Rooster')"><span class="tag-icon">🐓</span>Gallo Mágico</div>
+            <div class="popular-tag" onclick="quickSearch('Illidan')"><span class="tag-icon">😈</span>Illidan</div>
             <div class="popular-tag" onclick="quickSearch('Sword')"><span class="tag-icon">⚔️</span>Espadas</div>
             <div class="popular-tag" onclick="quickSearch('Staff')"><span class="tag-icon">🪄</span>Bastones</div>
             <div class="popular-tag" onclick="quickSearch('Shield')"><span class="tag-icon">🛡️</span>Escudos</div>
             <div class="popular-tag" onclick="quickSearch('Ring')"><span class="tag-icon">💍</span>Anillos</div>
-            <div class="popular-tag" onclick="quickSearch('Trinket')"><span class="tag-icon">🔮</span>Trinkets</div>
-            <div class="popular-tag" onclick="quickSearch('Enchant')"><span class="tag-icon">✨</span>Encantamientos</div>
         </div>
     </div>
 
@@ -640,14 +645,13 @@
         // ============ CONFIGURACIÓN ============
         const ICON_BASE_URL = 'https://wow.zamimg.com/images/wow/icons/large/';
         const ICON_BASE_URL_MEDIUM = 'https://wow.zamimg.com/images/wow/icons/medium/';
-        const WOWHEAD_SEARCH_URL = 'https://www.wowhead.com/items?filter=151;2;';
 
         let currentFilter = 'all';
         let currentPage = 1;
         let currentResults = [];
         const ITEMS_PER_PAGE = 24;
 
-        // ============ BASE DE DATOS DE ITEMS POPULARES ============
+        // ============ BASE DE DATOS DE ITEMS ============
         const ITEMS_DATABASE = [
             // ===== ARMAS LEGENDARIAS =====
             { id: 19019, name: "Thunderfury, Blessed Blade of the Windseeker", icon: "inv_sword_39", quality: "legendary", type: "weapon", subtype: "Espada a una mano", level: 80, description: "La legendaria espada del Vigilante del Viento" },
@@ -674,7 +678,6 @@
             { id: 30313, name: "Staff of Disintegration", icon: "staff_30", quality: "epic", type: "weapon", subtype: "Bastón", level: 70, description: "Bastón de desintegración" },
             { id: 30316, name: "Devastation", icon: "inv_sword_59", quality: "epic", type: "weapon", subtype: "Espada a dos manos", level: 70, description: "Devastación" },
             { id: 30318, name: "Netherstrand Longbow", icon: "inv_weapon_bow_28", quality: "epic", type: "weapon", subtype: "Arco", level: 70, description: "Arco largo de Abissal" },
-            { id: 19019, name: "Frostmourne (Replica)", icon: "inv_sword_frostmourne", quality: "legendary", type: "weapon", subtype: "Espada a dos manos", level: 80, description: "La espada del Rey Exánime" },
 
             // ===== BASTONES =====
             { id: 22589, name: "Atiesh, Greatstaff of the Guardian", icon: "staf_2h_medivh_d_01", quality: "legendary", type: "weapon", subtype: "Bastón", level: 60, description: "Gran bastón del Guardián" },
@@ -699,7 +702,7 @@
             { id: 16905, name: "Bloodfang Hood", icon: "inv_helmet_19", quality: "epic", type: "armor", subtype: "Casco (Leather)", level: 60, description: "Capucha Colmillo Sangriento - Rogue T2" },
 
             // ===== ESCUDOS =====
-            { id: 19019, name: "Bulwark of Azzinoth", icon: "inv_shield_71", quality: "epic", type: "armor", subtype: "Escudo", level: 70, description: "Baluarte de Azzinoth" },
+            { id: 32387, name: "Bulwark of Azzinoth", icon: "inv_shield_71", quality: "epic", type: "armor", subtype: "Escudo", level: 70, description: "Baluarte de Azzinoth" },
             { id: 18347, name: "General's Battlegear Shield", icon: "inv_shield_05", quality: "epic", type: "armor", subtype: "Escudo", level: 60, description: "Escudo de batalla del General" },
             { id: 19349, name: "Elementium Reinforced Bulwark", icon: "inv_shield_23", quality: "epic", type: "armor", subtype: "Escudo", level: 60, description: "Baluarte Reforzado de Elementium" },
 
@@ -711,7 +714,6 @@
 
             // ===== TRINKETS =====
             { id: 19406, name: "Drake Fang Talisman", icon: "inv_jewelry_necklace_13", quality: "epic", type: "misc", subtype: "Trinket", level: 60, description: "Talismán de Colmillo de Draco" },
-            { id: 17063, name: "Renataki's Charm of Beasts", icon: "inv_jewelry_necklace_29", quality: "epic", type: "misc", subtype: "Trinket", level: 60, description: "Dije de bestias de Renataki" },
             { id: 23207, name: "Mark of the Champion", icon: "inv_jewelry_talisman_08", quality: "epic", type: "misc", subtype: "Trinket", level: 60, description: "Marca del Campeón" },
             { id: 28789, name: "Eye of Gruul", icon: "inv_misc_eye_01", quality: "epic", type: "misc", subtype: "Trinket", level: 70, description: "Ojo de Gruul" },
             { id: 32505, name: "Madness of the Betrayer", icon: "inv_jewelry_trinketcloak_04", quality: "epic", type: "misc", subtype: "Trinket", level: 70, description: "Locura del Traidor" },
@@ -759,7 +761,7 @@
             { id: 24058, name: "Reckless Noble Topaz", icon: "inv_jewelcrafting_nobletopaz_01", quality: "rare", type: "misc", subtype: "Gema Naranja", level: 60, description: "+4 Daño con hechizos, +4 Celeridad" },
             { id: 30547, name: "Crimson Spinel", icon: "inv_jewelcrafting_crimsonspinel_02", quality: "epic", type: "misc", subtype: "Gema Roja", level: 70, description: "Gema roja épica" },
 
-            // ===== MONTURAS =====
+            // ===== MONTURAS NORMALES =====
             { id: 18902, name: "Reins of the Swift Razzashi Raptor", icon: "ability_mount_raptor", quality: "epic", type: "mount", subtype: "Montura", level: 60, description: "Raptor de Zul'Gurub" },
             { id: 19872, name: "Reins of the Swift Zulian Tiger", icon: "ability_mount_jungletiger", quality: "epic", type: "mount", subtype: "Montura", level: 60, description: "Tigre de Zul'Gurub" },
             { id: 13335, name: "Deathcharger's Reins", icon: "ability_mount_undeadhorse", quality: "epic", type: "mount", subtype: "Montura", level: 60, description: "Corcel de la Muerte del Barón" },
@@ -777,7 +779,7 @@
             { id: 63041, name: "Reins of the Drake of the South Wind", icon: "ability_mount_drake_red", quality: "epic", type: "mount", subtype: "Montura", level: 85, description: "Draco del viento del sur" },
             { id: 69224, name: "Smoldering Egg of Millagazor", icon: "inv_misc_egg_09", quality: "epic", type: "mount", subtype: "Montura", level: 85, description: "Huevo de Millagazor" },
 
-            // ===== MASCOTAS =====
+            // ===== MASCOTAS NORMALES =====
             { id: 8494, name: "Hyacinth Macaw", icon: "inv_feather_13", quality: "epic", type: "pet", subtype: "Mascota", level: 1, description: "Guacamayo Jacinto" },
             { id: 8491, name: "Black Tabby Cat", icon: "spell_shadow_summonimp", quality: "uncommon", type: "pet", subtype: "Mascota", level: 1, description: "Gato atigrado negro" },
             { id: 11474, name: "Sprite Darter Egg", icon: "inv_egg_02", quality: "uncommon", type: "pet", subtype: "Mascota", level: 1, description: "Huevo de hada sprite" },
@@ -797,8 +799,6 @@
             { id: 7080, name: "Essence of Water", icon: "inv_potion_18", quality: "common", type: "misc", subtype: "Esencia", level: 0, description: "Esencia de agua" },
             { id: 7082, name: "Essence of Earth", icon: "inv_ore_iron_01", quality: "common", type: "misc", subtype: "Esencia", level: 0, description: "Esencia de tierra" },
             { id: 7076, name: "Essence of Air", icon: "spell_nature_cyclone", quality: "common", type: "misc", subtype: "Esencia", level: 0, description: "Esencia de aire" },
-            { id: 12655, name: "Enchant Weapon - Crusader", icon: "spell_holy_greaterheal", quality: "uncommon", type: "misc", subtype: "Encantamiento", level: 0, description: "Encantamiento Cruzado" },
-            { id: 16250, name: "Formula: Enchant Weapon - Superior Striking", icon: "inv_enchant_formulagood_01", quality: "uncommon", type: "misc", subtype: "Fórmula", level: 0, description: "Fórmula de encantamiento" },
 
             // ===== MATERIALES DE CRAFTING =====
             { id: 22456, name: "Primal Mooncloth", icon: "inv_fabric_moonrag_primal", quality: "uncommon", type: "misc", subtype: "Tela", level: 60, description: "Tela lunar primigenia" },
@@ -810,11 +810,77 @@
             { id: 21885, name: "Primal Water", icon: "inv_elemental_primal_water", quality: "uncommon", type: "misc", subtype: "Primigenia", level: 60, description: "Primigenia de agua" },
             { id: 22449, name: "Primal Shadow", icon: "inv_elemental_primal_shadow", quality: "uncommon", type: "misc", subtype: "Primigenia", level: 60, description: "Primigenia de sombra" },
             { id: 23572, name: "Primal Nether", icon: "inv_elemental_primal_nether", quality: "epic", type: "misc", subtype: "Primigenia", level: 70, description: "Primigenia de vacío" },
+
+            // ===== TOKENS =====
             { id: 29434, name: "Badge of Justice", icon: "spell_holy_championsgrace", quality: "epic", type: "misc", subtype: "Token", level: 70, description: "Distintivo de justicia" },
             { id: 40752, name: "Emblem of Heroism", icon: "spell_holy_proclaimchampion_02", quality: "epic", type: "misc", subtype: "Token", level: 80, description: "Emblema de heroísmo" },
             { id: 40753, name: "Emblem of Valor", icon: "spell_holy_proclaimchampion", quality: "epic", type: "misc", subtype: "Token", level: 80, description: "Emblema de valor" },
             { id: 47241, name: "Emblem of Triumph", icon: "spell_holy_youreworthit", quality: "epic", type: "misc", subtype: "Token", level: 80, description: "Emblema de triunfo" },
-            { id: 49426, name: "Emblem of Frost", icon: "spell_holy_youreworthit", quality: "epic", type: "misc", subtype: "Token", level: 80, description: "Emblema de escarcha" },
+            { id: 49426, name: "Emblem of Frost", icon: "spell_holy_summonchampion", quality: "epic", type: "misc", subtype: "Token", level: 80, description: "Emblema de escarcha" },
+
+            // ============================================
+            // ===== TCG - JUEGOS DE CARTAS COLECCIONABLES =====
+            // ============================================
+            
+            // ----- TCG: Through the Dark Portal (A través del Portal Oscuro) -----
+            { id: 32757, name: "Spectral Tiger / Tigre Espectral", icon: "ability_mount_jungletiger", quality: "epic", type: "tcg", subtype: "TCG - Riendas tigre espectral", level: 70, description: "Riendas del tigre espectral - Montura TCG" },
+            { id: 33225, name: "Swift Spectral Tiger / Tigre Espectral Veloz", icon: "ability_mount_whitetiger", quality: "epic", type: "tcg", subtype: "TCG - Riendas tigre espectral", level: 70, description: "Riendas del tigre espectral veloz - Montura TCG epic" },
+            { id: 33079, name: "Magic Rooster Egg / Huevo de gallo mágico", icon: "inv_egg_03", quality: "epic", type: "tcg", subtype: "TCG - Montura", level: 70, description: "El Pollo Grande - Huevo de gallo mágico TCG" },
+            { id: 33223, name: "Ogre Pinata / Piñata ogra", icon: "inv_misc_toy_07", quality: "epic", type: "tcg", subtype: "TCG - Juguete", level: 0, description: "Piñata Ogra - Juguete TCG" },
+
+            // ----- TCG: The Burning Crusade -----
+            { id: 30148, name: "Icecrown / Caza de Illidan", icon: "inv_misc_map_01", quality: "epic", type: "tcg", subtype: "TCG - Burning Crusade", level: 0, description: "Icecrown - Caza de Illidan TCG" },
+            { id: 30150, name: "Fields of Honor / Fuegos de Terrallende", icon: "inv_misc_map_02", quality: "epic", type: "tcg", subtype: "TCG - Burning Crusade", level: 0, description: "Fields of Honor - Fuegos de Terrallende TCG" },
+            { id: 35227, name: "Soul-Trader Beacon / Baliza de comerciante de almas", icon: "inv_misc_orb_05", quality: "epic", type: "tcg", subtype: "TCG - Mascota", level: 0, description: "Desvalijador etéreo - Baliza de comerciante de almas TCG" },
+            { id: 32782, name: "Ethereal Portal / Portal etéreo", icon: "inv_misc_enggizmos_27", quality: "epic", type: "tcg", subtype: "TCG - Juguete", level: 0, description: "Portal Etéreo - Juguete TCG" },
+            { id: 38301, name: "D.I.S.C.O. / Disco Inferno!", icon: "inv_misc_orb_04", quality: "epic", type: "tcg", subtype: "TCG - Juguete", level: 0, description: "D.I.S.C.O. - Disco Inferno! TCG" },
+            { id: 34499, name: "Paint Bomb / Bomba de pintura", icon: "inv_misc_bomb_05", quality: "epic", type: "tcg", subtype: "TCG - Juguete", level: 0, description: "Bomba de Pintura TCG" },
+            { id: 35226, name: "Path of Cenarius / Senda de Cenarius", icon: "inv_misc_rune_07", quality: "epic", type: "tcg", subtype: "TCG - Juguete", level: 0, description: "Senda de Cenarius - Camino de flores TCG" },
+            { id: 37254, name: "Footsteps of Illidan / Las huellas de Illidan", icon: "spell_shadow_demonform", quality: "epic", type: "tcg", subtype: "TCG - Juguete", level: 0, description: "Las huellas de Illidan TCG" },
+            { id: 35228, name: "Fishing Chair / Silla para pescar", icon: "inv_misc_throne_01", quality: "epic", type: "tcg", subtype: "TCG - Juguete", level: 0, description: "Se fué pescando - Silla para pescar TCG" },
+            { id: 38050, name: "Goblin Gumbo Kettle / Tetera de potaje goblin", icon: "inv_misc_food_15", quality: "epic", type: "tcg", subtype: "TCG - Juguete", level: 0, description: "Potaje goblin - Tetera TCG" },
+
+            // ----- TCG: Servants of the Betrayer (Sirvientes del Traidor) -----
+            { id: 38050, name: "Personal Weather Machine / Máquina de clima goblin Pro", icon: "inv_misc_enggizmos_27", quality: "epic", type: "tcg", subtype: "TCG - Sirvientes del Traidor", level: 0, description: "Máquina del tiempo personal TCG" },
+            { id: 35227, name: "X-51 Nether-Rocket / Cohete abisal X-51", icon: "inv_misc_missilelarge_red", quality: "epic", type: "tcg", subtype: "TCG - Montura", level: 70, description: "Cohete abisal X-51 - Montura TCG" },
+            { id: 35225, name: "X-51 Nether-Rocket X-TREME / Cohete abisal X-51 XTREMO", icon: "inv_misc_missilelargeammo_red", quality: "epic", type: "tcg", subtype: "TCG - Montura", level: 70, description: "Cohete abisal X-51 XTREMO - Montura TCG" },
+            { id: 35513, name: "Picnic Basket / Cesta de merienda", icon: "inv_misc_basket_03", quality: "epic", type: "tcg", subtype: "TCG - Juguete", level: 0, description: "Descanso y relajación - Cesta de merienda TCG" },
+            { id: 35499, name: "Banana Charm / Talismán de plátano", icon: "inv_misc_food_19", quality: "epic", type: "tcg", subtype: "TCG - Mascota", level: 0, description: "Rey Mukla - Talismán de plátano TCG" },
+            { id: 37710, name: "Retro-Style Mecha-Pet / Galleta de mascota retro de papá Hummel", icon: "inv_misc_food_15", quality: "epic", type: "tcg", subtype: "TCG - Mascota", level: 0, description: "Galleta de mascota retro de papá Hummel TCG" },
+            { id: 35202, name: "Tuskarr Kite / Diablillo en bola", icon: "inv_misc_kite_01", quality: "epic", type: "tcg", subtype: "TCG - Juguete", level: 0, description: "La buena aventura - Diablillo en bola TCG" },
+
+            // ----- TCG: Fields of Honor / Heroes of Azeroth -----
+            { id: 38577, name: "Mark of the Legion / Marca de la Legión", icon: "inv_jewelry_talisman_12", quality: "epic", type: "tcg", subtype: "TCG - Marca", level: 0, description: "Marca de la Legión TCG" },
+            { id: 38576, name: "Heroes of Azeroth / Héroes de Azeroth", icon: "inv_misc_book_07", quality: "epic", type: "tcg", subtype: "TCG - Cofre", level: 0, description: "Héroes de Azeroth TCG" },
+            { id: 38050, name: "Dragon Kite / Cometa de dragón", icon: "inv_misc_kite_dragonhawk", quality: "epic", type: "tcg", subtype: "TCG - Juguete", level: 0, description: "Kiting - Cometa de dragón TCG" },
+            { id: 49284, name: "Tabard of Flame / Tabardo de las llamas", icon: "inv_shirt_guildtabard_01", quality: "epic", type: "tcg", subtype: "TCG - Tabardo", level: 0, description: "Landro Tirolargo - Tabardo de las llamas TCG" },
+            { id: 35906, name: "Robotic Homing Chicken / Gallina cohete", icon: "inv_misc_orb_04", quality: "epic", type: "tcg", subtype: "TCG - Juguete", level: 0, description: "Robotic Homing Chicken - Gallina cohete TCG" },
+            { id: 44430, name: "Hippogryph Hatchling / Pollo de hipogrifo", icon: "inv_egg_05", quality: "epic", type: "tcg", subtype: "TCG - Mascota", level: 0, description: "Hipogrifo Tronatesta - Pollo de hipogrifo TCG" },
+            { id: 35227, name: "Paper Flying Machine Kit / Juego de máquina voladora de papel", icon: "inv_misc_enggizmos_19", quality: "epic", type: "tcg", subtype: "TCG - Juguete", level: 0, description: "Avión de papel - Máquina voladora de papel TCG" },
+            { id: 46831, name: "Sea Turtle / Tortuga de montar", icon: "inv_misc_food_133", quality: "epic", type: "tcg", subtype: "TCG - Montura", level: 70, description: "Quijaforte marino - Tortuga de montar TCG" },
+
+            // ----- TCG: Wrathgate -----
+            { id: 44175, name: "Blazing Hippogryph / Hipogrifo flameante", icon: "ability_mount_hippogryph_01", quality: "epic", type: "tcg", subtype: "TCG - Wrathgate", level: 70, description: "Hipogrifo Flameante - Montura TCG" },
+            { id: 44806, name: "Epic Purple Shirt / Camisa morada épica", icon: "inv_shirt_05", quality: "epic", type: "tcg", subtype: "TCG - Wrathgate", level: 0, description: "Camisa morada épica - Centro de atención TCG" },
+            { id: 45063, name: "Statue Generator / Pedestal de estatua instantánea", icon: "inv_misc_statue_02", quality: "epic", type: "tcg", subtype: "TCG - Wrathgate", level: 0, description: "Pedestal de estatua instantánea TCG" },
+            { id: 45073, name: "Foam Sword Rack / Expositor para espadas de gomaespuma", icon: "inv_sword_27", quality: "epic", type: "tcg", subtype: "TCG - Wrathgate", level: 0, description: "Expositor de espadas de gomaespuma TCG" },
+            { id: 44793, name: "Landro's Gift / Caja de regalos de Landro", icon: "inv_crate_03", quality: "epic", type: "tcg", subtype: "TCG - Wrathgate", level: 0, description: "Caja de regalos de Landro TCG" },
+            { id: 46813, name: "Banana Charm / Tigre balancín", icon: "inv_misc_monsterscales_11", quality: "epic", type: "tcg", subtype: "TCG - Mascota", level: 0, description: "Tigre Balancín - Mascota TCG" },
+
+            // ----- TCG: Scourgewar (Guerra de la Plaga) -----
+            { id: 49290, name: "Tuskarr Kite / Cometa colmillarr", icon: "inv_misc_kite_01", quality: "epic", type: "tcg", subtype: "TCG - Guerra de la Plaga", level: 0, description: "Cometa colmillarr TCG" },
+            { id: 49704, name: "War Drums / Tambores de guerra", icon: "inv_misc_drum_06", quality: "epic", type: "tcg", subtype: "TCG - Guerra de la Plaga", level: 0, description: "Tambores de Guerra TCG" },
+            { id: 49286, name: "Spectral Tiger Cub / Cachorro de tigre espectral", icon: "ability_mount_whitetiger", quality: "epic", type: "tcg", subtype: "TCG - Mascota", level: 0, description: "Gatito Espectral - Mascota TCG" },
+            { id: 49295, name: "The Big Battle Bear / Oso de batalla grande", icon: "ability_mount_polarbear_white", quality: "epic", type: "tcg", subtype: "TCG - Montura", level: 70, description: "El Oso Rojo (The Red Bearon) - Montura TCG" },
+            { id: 49377, name: "Little White Stallion Bridle / Brida de semental blanco pequeño", icon: "inv_misc_horn_02", quality: "epic", type: "tcg", subtype: "TCG - Mascota", level: 0, description: "Pequeño semental blanco - Mascota TCG" },
+            { id: 49362, name: "Banner of the Fallen / La bandera de potestad", icon: "inv_bannerpvp_01", quality: "epic", type: "tcg", subtype: "TCG - Juguete", level: 0, description: "Owned! - Bandera de potestad TCG" },
+            { id: 49703, name: "Party G.R.E.N.A.D.E. / G.R.A.N.A.D.A. de fiesta", icon: "inv_misc_bomb_04", quality: "epic", type: "tcg", subtype: "TCG - Juguete", level: 0, description: "Slashdance - G.R.A.N.A.D.A. de fiesta TCG" },
+            { id: 49284, name: "Little Ivory Raptor / Silbato de raptor marfil pequeño", icon: "ability_mount_raptor", quality: "epic", type: "tcg", subtype: "TCG - Mascota", level: 0, description: "Pequeño raptor marfil - Mascota TCG" },
+
+            // ----- TCG: Items Adicionales -----
+            { id: 49183, name: "Carved Ogre Idol / Ídolo de ogro tallado", icon: "inv_misc_idol_03", quality: "epic", type: "tcg", subtype: "TCG - Juguete", level: 0, description: "Ídolo de ogro tallado TCG" },
+            { id: 46725, name: "Purple Firework / Fuego de artificio morado permanente", icon: "inv_misc_missilelarge_purple", quality: "epic", type: "tcg", subtype: "TCG - Juguete", level: 0, description: "Fuego de artificio morado permanente TCG" },
+            { id: 35227, name: "Sandbox Tiger / Tigre balancín de arena", icon: "ability_mount_whitetiger", quality: "epic", type: "tcg", subtype: "TCG - Juguete", level: 0, description: "Tigre balancín de arena TCG" },
 
             // ===== LIBROS / ENCANTAMIENTOS =====
             { id: 18264, name: "Plans: Elemental Sharpening Stone", icon: "inv_scroll_03", quality: "rare", type: "misc", subtype: "Planos", level: 0, description: "Planos: Piedra de afilar elemental" },
@@ -850,7 +916,7 @@
                              loading="lazy"
                              title="Click para ampliar"
                              style="cursor:pointer"
-                             onclick="openModal('${item.name}', '${item.icon}', '${item.quality}')">
+                             onclick="openModal('${item.name.replace(/'/g, "\\'")}', '${item.icon}', '${item.quality}')">
                     </div>
                     <div>
                         <div class="item-name ${item.quality}">${item.name}</div>
@@ -864,10 +930,10 @@
                     <button class="btn-action btn-copy-url" onclick="copyIconUrl('${item.icon}')">
                         📋 URL
                     </button>
-                    <button class="btn-action btn-copy-icon" onclick="copyIconToClipboard('${item.icon}', '${item.name}')">
+                    <button class="btn-action btn-copy-icon" onclick="copyIconToClipboard('${item.icon}', '${item.name.replace(/'/g, "\\'")}')">
                         🖼️ Copiar Icono
                     </button>
-                    <button class="btn-action btn-download" onclick="downloadIcon('${item.icon}', '${item.name}')">
+                    <button class="btn-action btn-download" onclick="downloadIcon('${item.icon}', '${item.name.replace(/'/g, "\\'")}')">
                         💾 Descargar
                     </button>
                     <button class="btn-action btn-copy-html" onclick="copyHtml('${item.icon}', '${item.name.replace(/'/g, "\\'")}')">
@@ -884,7 +950,6 @@
             navigator.clipboard.writeText(url).then(() => {
                 showToast('✅ URL del icono copiada al portapapeles');
             }).catch(() => {
-                // Fallback
                 const textarea = document.createElement('textarea');
                 textarea.value = url;
                 document.body.appendChild(textarea);
@@ -902,7 +967,6 @@
                 const response = await fetch(url);
                 const blob = await response.blob();
                 
-                // Convertir a PNG para compatibilidad
                 const img = new Image();
                 img.crossOrigin = 'anonymous';
                 img.src = URL.createObjectURL(blob);
@@ -924,7 +988,6 @@
                         ]);
                         showToast(`✅ Icono de "${itemName}" copiado - ¡Pégalo con Ctrl+V!`);
                     } catch (e) {
-                        // Si no se puede copiar imagen, copiar URL
                         copyIconUrl(iconName);
                     }
                 }, 'image/png');
@@ -951,7 +1014,6 @@
                     showToast(`✅ Descargando icono de "${itemName}"`);
                 })
                 .catch(() => {
-                    // Fallback: abrir en nueva pestaña
                     window.open(url, '_blank');
                     showToast('📥 Icono abierto en nueva pestaña - Guárdalo con clic derecho');
                 });
@@ -984,7 +1046,6 @@
             document.getElementById('modalUrl').textContent = url;
             document.getElementById('modalOverlay').classList.add('show');
             
-            // Guardar datos para las acciones del modal
             document.getElementById('modalOverlay').dataset.icon = iconName;
             document.getElementById('modalOverlay').dataset.name = name;
         }
@@ -1020,6 +1081,7 @@
 
         function setFilter(filter, btn) {
             currentFilter = filter;
+            currentPage = 1;
             document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             
@@ -1043,7 +1105,6 @@
             document.getElementById('itemsGrid').innerHTML = '';
             document.getElementById('statsBar').style.display = 'none';
             
-            // Simular búsqueda
             setTimeout(() => {
                 currentResults = ITEMS_DATABASE.filter(item => {
                     const matchesQuery = item.name.toLowerCase().includes(query) ||
@@ -1053,19 +1114,17 @@
                     return matchesQuery;
                 });
 
-                // También buscar por la API de Wowhead (iconos adicionales)
                 searchWowheadIcons(query);
 
                 document.getElementById('loadingIndicator').style.display = 'none';
+                currentPage = 1;
                 filterAndDisplay();
             }, 300);
         }
 
         function searchWowheadIcons(query) {
-            // Añadir resultados basados en nombres de iconos comunes
             const commonIcons = generateCommonIcons(query);
             commonIcons.forEach(icon => {
-                // Evitar duplicados
                 if (!currentResults.find(r => r.icon === icon.icon)) {
                     currentResults.push(icon);
                 }
@@ -1088,22 +1147,26 @@
                 'gem': ['inv_misc_gem_variety_01', 'inv_misc_gem_variety_02', 'inv_misc_gem_ruby_01', 'inv_misc_gem_ruby_02', 'inv_misc_gem_ruby_03', 'inv_misc_gem_sapphire_01', 'inv_misc_gem_sapphire_02', 'inv_misc_gem_sapphire_03', 'inv_misc_gem_emerald_01', 'inv_misc_gem_emerald_02', 'inv_misc_gem_emerald_03', 'inv_misc_gem_opal_01', 'inv_misc_gem_opal_02', 'inv_misc_gem_opal_03', 'inv_misc_gem_diamond_01', 'inv_misc_gem_diamond_02', 'inv_misc_gem_diamond_07', 'inv_misc_gem_bloodstone_01', 'inv_misc_gem_bloodstone_02', 'inv_misc_gem_bloodstone_03', 'inv_misc_gem_pearl_03', 'inv_misc_gem_pearl_05', 'inv_misc_gem_pearl_06', 'inv_misc_gem_crystal_01', 'inv_misc_gem_crystal_02', 'inv_misc_gem_crystal_03', 'inv_misc_gem_amethyst_01', 'inv_misc_gem_amethyst_02', 'inv_misc_gem_topaz_01', 'inv_misc_gem_topaz_02', 'inv_jewelcrafting_livingruby_01', 'inv_jewelcrafting_livingruby_02', 'inv_jewelcrafting_livingruby_03', 'inv_jewelcrafting_starofelune_01', 'inv_jewelcrafting_starofelune_02', 'inv_jewelcrafting_starofelune_03', 'inv_jewelcrafting_talasite_01', 'inv_jewelcrafting_talasite_02', 'inv_jewelcrafting_talasite_03', 'inv_jewelcrafting_nobletopaz_01', 'inv_jewelcrafting_nobletopaz_02', 'inv_jewelcrafting_nobletopaz_03', 'inv_jewelcrafting_dawnstone_01', 'inv_jewelcrafting_dawnstone_02', 'inv_jewelcrafting_dawnstone_03', 'inv_jewelcrafting_nightseye_01', 'inv_jewelcrafting_nightseye_02', 'inv_jewelcrafting_nightseye_03', 'inv_jewelcrafting_crimsonspinel_01', 'inv_jewelcrafting_crimsonspinel_02'],
                 'ring': ['inv_jewelry_ring_01', 'inv_jewelry_ring_02', 'inv_jewelry_ring_03', 'inv_jewelry_ring_04', 'inv_jewelry_ring_05', 'inv_jewelry_ring_06', 'inv_jewelry_ring_07', 'inv_jewelry_ring_14', 'inv_jewelry_ring_15', 'inv_jewelry_ring_16', 'inv_jewelry_ring_18', 'inv_jewelry_ring_22', 'inv_jewelry_ring_27', 'inv_jewelry_ring_33', 'inv_jewelry_ring_36', 'inv_jewelry_ring_38', 'inv_ring_hwl2', 'inv_ring_eternalsage'],
                 'trinket': ['inv_jewelry_trinketcloak_01', 'inv_jewelry_trinketcloak_02', 'inv_jewelry_trinketcloak_03', 'inv_jewelry_trinketcloak_04', 'inv_jewelry_talisman_01', 'inv_jewelry_talisman_02', 'inv_jewelry_talisman_03', 'inv_jewelry_talisman_04', 'inv_jewelry_talisman_06', 'inv_jewelry_talisman_07', 'inv_jewelry_talisman_08', 'inv_jewelry_talisman_10', 'inv_jewelry_necklace_01', 'inv_jewelry_necklace_02', 'inv_jewelry_necklace_03', 'inv_jewelry_necklace_04', 'inv_jewelry_necklace_05', 'inv_jewelry_necklace_13', 'inv_jewelry_necklace_17', 'inv_jewelry_necklace_29'],
-                'mount': ['ability_mount_ridinghorse', 'ability_mount_blackdirewolf', 'ability_mount_charger', 'ability_mount_dreadsteed', 'ability_mount_drake_azure', 'ability_mount_drake_blue', 'ability_mount_drake_bronze', 'ability_mount_drake_red', 'ability_mount_drake_twilight', 'ability_mount_feldrake', 'ability_mount_jungletiger', 'ability_mount_mammoth_black', 'ability_mount_mammoth_white', 'ability_mount_mechastrider', 'ability_mount_mountainram', 'ability_mount_netherdrakepurple', 'ability_mount_raptor', 'ability_mount_undeadhorse', 'ability_mount_whitetiger', 'ability_mount_yourflyingmount'],
+                'mount': ['ability_mount_ridinghorse', 'ability_mount_blackdirewolf', 'ability_mount_charger', 'ability_mount_dreadsteed', 'ability_mount_drake_azure', 'ability_mount_drake_blue', 'ability_mount_drake_bronze', 'ability_mount_drake_red', 'ability_mount_drake_twilight', 'ability_mount_feldrake', 'ability_mount_jungletiger', 'ability_mount_mammoth_black', 'ability_mount_mammoth_white', 'ability_mount_mechastrider', 'ability_mount_mountainram', 'ability_mount_netherdrakepurple', 'ability_mount_raptor', 'ability_mount_undeadhorse', 'ability_mount_whitetiger', 'ability_mount_yourflyingmount', 'ability_mount_hippogryph_01', 'ability_mount_polarbear_white'],
                 'enchant': ['inv_enchant_formulagood_01', 'inv_enchant_formulagood_02', 'inv_enchant_formulasuperior_01', 'inv_enchant_formulasuperior_02', 'inv_enchant_essenceeternallarge', 'inv_enchant_essenceeternalsmall', 'inv_enchant_essencenethersmall', 'inv_enchant_essencenetherlarge', 'inv_enchant_essenceastralsmall', 'inv_enchant_essenceastrallarge', 'inv_enchant_essencemysticalsmall', 'inv_enchant_essencemysticallarge', 'inv_enchant_dustdream', 'inv_enchant_dustillusion', 'inv_enchant_dustsoul', 'inv_enchant_dustarcane', 'inv_enchant_shardbrilliantsmall', 'inv_enchant_shardbrilliantlarge', 'inv_enchant_shardnexuslarge', 'inv_enchant_shardnexussmall', 'inv_enchant_shardprismaticlarge', 'inv_enchant_shardprismaticsmall', 'inv_enchant_voidsphere'],
                 'food': ['inv_misc_food_01', 'inv_misc_food_02', 'inv_misc_food_03', 'inv_misc_food_04', 'inv_misc_food_05', 'inv_misc_food_06', 'inv_misc_food_07', 'inv_misc_food_08', 'inv_misc_food_09', 'inv_misc_food_10', 'inv_misc_food_11', 'inv_misc_food_12', 'inv_misc_food_13', 'inv_misc_food_14', 'inv_misc_food_15', 'inv_misc_food_47', 'inv_misc_food_49', 'inv_misc_food_50', 'inv_misc_food_53', 'inv_misc_food_58', 'inv_misc_food_60', 'inv_misc_food_62', 'inv_misc_food_64', 'inv_misc_food_65', 'inv_misc_food_67', 'inv_misc_food_68', 'inv_misc_food_69', 'inv_misc_food_70', 'inv_misc_food_72', 'inv_misc_food_73'],
+                'tcg': ['inv_misc_map_01', 'inv_misc_map_02', 'inv_misc_orb_04', 'inv_misc_orb_05', 'inv_misc_enggizmos_27', 'inv_misc_throne_01', 'inv_misc_kite_01', 'inv_misc_kite_dragonhawk', 'inv_egg_03', 'inv_egg_05', 'inv_misc_idol_03', 'inv_misc_basket_03', 'inv_misc_drum_06', 'inv_bannerpvp_01', 'inv_misc_toy_07'],
+                'kite': ['inv_misc_kite_01', 'inv_misc_kite_dragonhawk'],
+                'tiger': ['ability_mount_jungletiger', 'ability_mount_whitetiger'],
             };
 
             for (const [key, icons] of Object.entries(iconPrefixes)) {
                 if (key.includes(query) || query.includes(key)) {
                     icons.forEach((icon, index) => {
                         results.push({
-                            id: 100000 + index,
+                            id: 100000 + index + Math.floor(Math.random() * 1000),
                             name: `${key.charAt(0).toUpperCase() + key.slice(1)} Icon #${index + 1}`,
                             icon: icon,
                             quality: 'common',
                             type: key === 'potion' || key === 'food' ? 'consumable' : 
                                   key === 'mount' ? 'mount' : 
-                                  key === 'ring' || key === 'trinket' || key === 'gem' || key === 'enchant' ? 'misc' :
+                                  key === 'tcg' ? 'tcg' :
+                                  key === 'ring' || key === 'trinket' || key === 'gem' || key === 'enchant' || key === 'kite' ? 'misc' :
                                   key === 'helmet' || key === 'chest' || key === 'shield' ? 'armor' : 'weapon',
                             subtype: key.charAt(0).toUpperCase() + key.slice(1),
                             level: 0,
@@ -1135,7 +1198,6 @@
 
             document.getElementById('emptyState').style.display = 'none';
             
-            // Paginación
             const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
             if (currentPage > totalPages) currentPage = 1;
             
@@ -1163,7 +1225,6 @@
             container.style.display = 'flex';
             container.innerHTML = '';
 
-            // Anterior
             const prevBtn = document.createElement('button');
             prevBtn.className = 'page-btn';
             prevBtn.textContent = '← Anterior';
@@ -1171,7 +1232,6 @@
             prevBtn.onclick = () => { currentPage--; filterAndDisplay(); window.scrollTo(0, 300); };
             container.appendChild(prevBtn);
 
-            // Números de página
             for (let i = 1; i <= totalPages; i++) {
                 if (totalPages > 7 && i > 3 && i < totalPages - 2 && Math.abs(i - currentPage) > 1) {
                     if (i === 4 || i === totalPages - 3) {
@@ -1190,7 +1250,6 @@
                 container.appendChild(btn);
             }
 
-            // Siguiente
             const nextBtn = document.createElement('button');
             nextBtn.className = 'page-btn';
             nextBtn.textContent = 'Siguiente →';
@@ -1209,7 +1268,6 @@
             document.getElementById('statsBar').style.display = 'none';
             document.getElementById('emptyState').style.display = 'none';
             
-            // Mostrar items populares por defecto
             currentResults = [...ITEMS_DATABASE];
             currentPage = 1;
             filterAndDisplay();
@@ -1221,7 +1279,6 @@
             if (e.key === 'Enter') searchItems();
         });
 
-        // Auto-búsqueda mientras escribes
         let searchTimeout;
         document.getElementById('searchInput').addEventListener('input', function() {
             clearTimeout(searchTimeout);
@@ -1234,7 +1291,6 @@
             }, 400);
         });
 
-        // Cerrar modal con Escape
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 document.getElementById('modalOverlay').classList.remove('show');
