@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WoW Icon Wiki - Iconos Reales</title>
+    <title>WoW Icon Wiki - Mi Colección</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -15,7 +15,7 @@
         header {
             background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 50%, #2d1b4e 100%);
             border-bottom: 3px solid #f5a623;
-            padding: 20px 0;
+            padding: 15px 0;
             text-align: center;
             position: sticky;
             top: 0;
@@ -23,65 +23,97 @@
             box-shadow: 0 4px 20px rgba(0,0,0,0.5);
         }
         header h1 {
-            font-size: 2.5em;
+            font-size: 2em;
             color: #f5a623;
             text-shadow: 0 0 20px rgba(245, 166, 35, 0.5);
-            margin-bottom: 5px;
+            margin-bottom: 3px;
         }
         header h1 span { color: #a855f7; }
-        header p { color: #888; font-size: 0.95em; }
+        header p { color: #888; font-size: 0.9em; }
 
-        .search-container {
-            max-width: 1000px;
-            margin: 30px auto;
+        .main-container {
+            max-width: 1400px;
+            margin: 20px auto;
             padding: 0 20px;
         }
 
         .info-box {
-            max-width: 1000px;
-            margin: 0 auto 20px;
-            padding: 20px;
+            padding: 15px 20px;
             background: linear-gradient(135deg, #1a1a3e, #2d1b4e);
             border: 1px solid #f5a623;
             border-radius: 10px;
             color: #ccc;
-            font-size: 0.95em;
-            line-height: 1.6;
+            font-size: 0.9em;
+            line-height: 1.5;
+            margin-bottom: 20px;
         }
-        .info-box h3 { color: #f5a623; margin-bottom: 10px; }
         .info-box code {
             background: #0f0f23;
-            padding: 2px 8px;
+            padding: 2px 6px;
             border-radius: 4px;
             color: #1eff00;
             font-family: 'Courier New', monospace;
-            font-size: 0.9em;
+            font-size: 0.85em;
         }
-        .info-box a {
-            color: #0070dd;
-            text-decoration: none;
-        }
-        .info-box a:hover { color: #0090ff; text-decoration: underline; }
 
-        .id-input-section {
-            max-width: 1000px;
-            margin: 0 auto 20px;
-            padding: 25px;
+        .add-section {
+            padding: 20px;
             background: #16213e;
             border-radius: 12px;
             border: 2px solid #444;
+            margin-bottom: 20px;
         }
-        .id-input-section h3 {
+        .add-section h3 {
             color: #f5a623;
             margin-bottom: 15px;
-            font-size: 1.2em;
+            font-size: 1.1em;
         }
-        .id-input-row {
+
+        .category-selector {
             display: flex;
             gap: 10px;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+            align-items: center;
         }
-        .id-input-row input {
+        .category-selector label {
+            color: #ccc;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+        .category-selector select {
+            flex: 1;
+            min-width: 200px;
+            padding: 12px;
+            background: #0f0f23;
+            border: 2px solid #a855f7;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 1em;
+            cursor: pointer;
+        }
+        .category-selector select:focus {
+            outline: none;
+            border-color: #f5a623;
+        }
+        .btn-new-cat {
+            padding: 12px 18px;
+            background: #a855f7;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+        .btn-new-cat:hover { background: #c065ff; }
+
+        .input-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+        .input-row input {
             flex: 1;
             padding: 14px;
             background: #0f0f23;
@@ -90,11 +122,11 @@
             color: #fff;
             font-size: 1em;
         }
-        .id-input-row input:focus {
+        .input-row input:focus {
             outline: none;
             border-color: #f5a623;
         }
-        .id-input-row button {
+        .input-row button {
             padding: 14px 25px;
             background: linear-gradient(135deg, #1eff00, #15cc00);
             color: #000;
@@ -105,67 +137,311 @@
             font-size: 1em;
             white-space: nowrap;
         }
-        .id-input-row button:hover {
-            transform: scale(1.03);
-            box-shadow: 0 0 20px rgba(30, 255, 0, 0.4);
-        }
-        .id-input-row button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
+        .input-row button:hover { transform: scale(1.03); }
+        .input-row button:disabled { opacity: 0.5; cursor: not-allowed; }
 
-        .preset-section {
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px solid #333;
-        }
-        .preset-section p {
-            color: #888;
-            margin-bottom: 10px;
-            font-size: 0.9em;
-        }
-        .preset-buttons {
+        .toolbar {
             display: flex;
             gap: 10px;
             flex-wrap: wrap;
+            padding-top: 12px;
+            border-top: 1px solid #333;
+            margin-top: 12px;
         }
-        .preset-btn {
-            padding: 10px 18px;
+        .tool-btn {
+            padding: 8px 14px;
             background: #2d1b4e;
             border: 1px solid #555;
-            border-radius: 8px;
+            border-radius: 6px;
             color: #ccc;
             cursor: pointer;
             font-size: 0.85em;
-            transition: all 0.3s;
         }
-        .preset-btn:hover {
+        .tool-btn:hover {
             border-color: #f5a623;
             color: #f5a623;
-            background: #3d2b5e;
         }
-        .preset-btn.danger {
+        .tool-btn.danger {
             border-color: #ff3030;
             color: #ff6060;
         }
-        .preset-btn.danger:hover {
-            background: #4a1a1a;
-            color: #ff8080;
+        .tool-btn.danger:hover { background: #4a1a1a; }
+        .tool-btn.success {
+            border-color: #1eff00;
+            color: #1eff00;
         }
+
+        /* ======= FILTROS DE CATEGORÍAS ======= */
+        .category-filters {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #16213e;
+            border-radius: 10px;
+            border: 1px solid #333;
+        }
+        .cat-filter {
+            padding: 8px 16px;
+            background: #0f0f23;
+            border: 1px solid #444;
+            border-radius: 20px;
+            color: #ccc;
+            cursor: pointer;
+            font-size: 0.85em;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .cat-filter:hover {
+            border-color: #f5a623;
+            color: #f5a623;
+        }
+        .cat-filter.active {
+            background: #f5a623;
+            color: #000;
+            border-color: #f5a623;
+            font-weight: bold;
+        }
+        .cat-filter .count {
+            background: rgba(0,0,0,0.3);
+            padding: 1px 8px;
+            border-radius: 10px;
+            font-size: 0.75em;
+        }
+        .cat-filter.active .count {
+            background: rgba(0,0,0,0.4);
+        }
+
+        /* ======= ITEMS GRID ======= */
+        .items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+            gap: 18px;
+        }
+
+        .item-card {
+            background: linear-gradient(145deg, #16213e, #1a1a3e);
+            border: 1px solid #333;
+            border-radius: 12px;
+            padding: 16px;
+            transition: all 0.3s;
+            position: relative;
+        }
+        .item-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .item-card.poor { border-left: 4px solid #9d9d9d; }
+        .item-card.common { border-left: 4px solid #ffffff; }
+        .item-card.uncommon { border-left: 4px solid #1eff00; }
+        .item-card.rare { border-left: 4px solid #0070dd; }
+        .item-card.epic { border-left: 4px solid #a335ee; }
+        .item-card.legendary { border-left: 4px solid #ff8000; }
+        .item-card.artifact { border-left: 4px solid #e6cc80; }
+        .item-card.heirloom { border-left: 4px solid #00ccff; }
+
+        .item-category-badge {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(168, 85, 247, 0.9);
+            color: white;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.7em;
+            font-weight: bold;
+        }
+
+        .item-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 10px;
+            margin-top: 18px;
+        }
+        .icon-wrapper { width: 56px; height: 56px; flex-shrink: 0; }
+        .icon-wrapper img {
+            width: 56px;
+            height: 56px;
+            border-radius: 8px;
+            border: 2px solid #555;
+            background: #000;
+            cursor: pointer;
+        }
+        .item-card.poor img { border-color: #9d9d9d; }
+        .item-card.common img { border-color: #ffffff; }
+        .item-card.uncommon img { border-color: #1eff00; }
+        .item-card.rare img { border-color: #0070dd; }
+        .item-card.epic img { border-color: #a335ee; }
+        .item-card.legendary img { border-color: #ff8000; }
+        .item-card.artifact img { border-color: #e6cc80; }
+        .item-card.heirloom img { border-color: #00ccff; }
+
+        .item-info { flex: 1; min-width: 0; }
+        .item-name {
+            font-size: 0.95em;
+            font-weight: bold;
+            line-height: 1.3;
+            word-wrap: break-word;
+        }
+        .item-name.poor { color: #9d9d9d; }
+        .item-name.common { color: #ffffff; }
+        .item-name.uncommon { color: #1eff00; }
+        .item-name.rare { color: #0070dd; }
+        .item-name.epic { color: #a335ee; }
+        .item-name.legendary { color: #ff8000; }
+        .item-name.artifact { color: #e6cc80; }
+        .item-name.heirloom { color: #00ccff; }
+
+        .item-id {
+            font-size: 0.7em;
+            color: #888;
+            margin-top: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        .item-icon-name {
+            font-size: 0.65em;
+            color: #555;
+            margin-top: 2px;
+            font-family: 'Courier New', monospace;
+            word-break: break-all;
+        }
+
+        .item-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5px;
+            margin-top: 10px;
+        }
+        .btn-action {
+            padding: 7px 8px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.75em;
+            font-weight: 600;
+        }
+        .btn-action:hover { opacity: 0.85; }
+        .btn-copy-url { background: #0070dd; color: white; }
+        .btn-copy-icon { background: #a335ee; color: white; }
+        .btn-download { background: #1eff00; color: #000; }
+        .btn-copy-html { background: #ff8000; color: #000; }
+        .btn-wowhead { background: #444; color: #fff; }
+        .btn-change-cat { background: #6c5ce7; color: #fff; }
+        .btn-remove { background: #ff3030; color: white; grid-column: span 2; }
+
+        /* ======= MODAL ======= */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.85);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .modal-overlay.show { display: flex; }
+        .modal {
+            background: #16213e;
+            border: 2px solid #f5a623;
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 500px;
+            width: 100%;
+        }
+        .modal h2 {
+            color: #f5a623;
+            margin-bottom: 20px;
+        }
+        .modal label {
+            display: block;
+            color: #ccc;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        .modal input, .modal select {
+            width: 100%;
+            padding: 12px;
+            background: #0f0f23;
+            border: 1px solid #444;
+            border-radius: 6px;
+            color: #fff;
+            font-size: 1em;
+            margin-bottom: 15px;
+        }
+        .modal input:focus, .modal select:focus {
+            outline: none;
+            border-color: #f5a623;
+        }
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+        .modal-buttons button {
+            padding: 12px 22px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .btn-save { background: #1eff00; color: #000; }
+        .btn-cancel { background: #444; color: #fff; }
+
+        /* ======= EMOJI PICKER ======= */
+        .emoji-row {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+        .emoji-btn {
+            padding: 8px 12px;
+            background: #0f0f23;
+            border: 1px solid #444;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1.2em;
+        }
+        .emoji-btn:hover { border-color: #f5a623; }
+        .emoji-btn.selected { border-color: #1eff00; background: #1a3a1a; }
+
+        /* ======= TOAST ======= */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(150px);
+            background: #1eff00;
+            color: #000;
+            padding: 15px 25px;
+            border-radius: 10px;
+            font-weight: bold;
+            z-index: 9999;
+            transition: transform 0.4s ease;
+            max-width: 90%;
+            text-align: center;
+        }
+        .toast.show { transform: translateX(-50%) translateY(0); }
+        .toast.error { background: #ff3030; color: white; }
+        .toast.warning { background: #ff8000; color: #000; }
 
         .progress-bar {
             display: none;
-            max-width: 1000px;
-            margin: 0 auto 20px;
-            padding: 0 20px;
+            margin: 15px 0;
         }
         .progress-bar.show { display: block; }
         .progress-track {
-            background: #16213e;
+            background: #0f0f23;
             border-radius: 10px;
             overflow: hidden;
-            height: 30px;
+            height: 28px;
             position: relative;
             border: 1px solid #444;
         }
@@ -186,187 +462,18 @@
             text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
         }
 
-        .stats {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 20px 10px;
-            color: #888;
-            text-align: center;
-        }
-        .stats span { color: #f5a623; font-weight: bold; }
-
-        .items-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 20px 40px;
-        }
-        .items-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
-            gap: 20px;
-        }
-
-        .item-card {
-            background: linear-gradient(145deg, #16213e, #1a1a3e);
-            border: 1px solid #333;
-            border-radius: 12px;
-            padding: 18px;
-            transition: all 0.3s;
-        }
-        .item-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-        .item-card.poor { border-left: 4px solid #9d9d9d; }
-        .item-card.common { border-left: 4px solid #ffffff; }
-        .item-card.uncommon { border-left: 4px solid #1eff00; }
-        .item-card.rare { border-left: 4px solid #0070dd; }
-        .item-card.epic { border-left: 4px solid #a335ee; }
-        .item-card.legendary { border-left: 4px solid #ff8000; }
-        .item-card.artifact { border-left: 4px solid #e6cc80; }
-        .item-card.heirloom { border-left: 4px solid #00ccff; }
-
-        .item-header {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 12px;
-        }
-        .icon-wrapper {
-            width: 56px;
-            height: 56px;
-            flex-shrink: 0;
-        }
-        .icon-wrapper img {
-            width: 56px;
-            height: 56px;
-            border-radius: 8px;
-            border: 2px solid #555;
-            background: #000;
-            cursor: pointer;
-        }
-        .item-card.poor img { border-color: #9d9d9d; }
-        .item-card.common img { border-color: #ffffff; }
-        .item-card.uncommon img { border-color: #1eff00; }
-        .item-card.rare img { border-color: #0070dd; }
-        .item-card.epic img { border-color: #a335ee; }
-        .item-card.legendary img { border-color: #ff8000; }
-        .item-card.artifact img { border-color: #e6cc80; }
-        .item-card.heirloom img { border-color: #00ccff; }
-
-        .item-info { flex: 1; min-width: 0; }
-        .item-name {
-            font-size: 1em;
-            font-weight: bold;
-            line-height: 1.3;
-            word-wrap: break-word;
-        }
-        .item-name.poor { color: #9d9d9d; }
-        .item-name.common { color: #ffffff; }
-        .item-name.uncommon { color: #1eff00; }
-        .item-name.rare { color: #0070dd; }
-        .item-name.epic { color: #a335ee; }
-        .item-name.legendary { color: #ff8000; }
-        .item-name.artifact { color: #e6cc80; }
-        .item-name.heirloom { color: #00ccff; }
-
-        .item-id {
-            font-size: 0.75em;
-            color: #888;
-            margin-top: 4px;
-            font-family: 'Courier New', monospace;
-        }
-        .item-icon-name {
-            font-size: 0.7em;
-            color: #555;
-            margin-top: 2px;
-            font-family: 'Courier New', monospace;
-            word-break: break-all;
-        }
-
-        .item-actions {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 6px;
-            margin-top: 12px;
-        }
-        .btn-action {
-            padding: 8px 10px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.8em;
-            font-weight: 600;
-            transition: opacity 0.2s;
-        }
-        .btn-action:hover { opacity: 0.85; }
-        .btn-copy-url { background: #0070dd; color: white; }
-        .btn-copy-icon { background: #a335ee; color: white; }
-        .btn-download { background: #1eff00; color: #000; }
-        .btn-copy-html { background: #ff8000; color: #000; }
-        .btn-wowhead { background: #444; color: #fff; }
-        .btn-remove { background: #ff3030; color: white; }
-
-        .toast {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%) translateY(150px);
-            background: #1eff00;
-            color: #000;
-            padding: 15px 25px;
-            border-radius: 10px;
-            font-weight: bold;
-            z-index: 9999;
-            transition: transform 0.4s ease;
-            box-shadow: 0 5px 30px rgba(30, 255, 0, 0.3);
-            max-width: 90%;
-            text-align: center;
-        }
-        .toast.show { transform: translateX(-50%) translateY(0); }
-        .toast.error { background: #ff3030; color: white; }
-        .toast.warning { background: #ff8000; color: #000; }
-
         .empty-state {
             text-align: center;
-            padding: 80px 20px;
+            padding: 60px 20px;
             color: #666;
         }
-        .empty-state .emoji {
-            font-size: 5em;
-            margin-bottom: 20px;
-            opacity: 0.5;
-        }
-        .empty-state h3 {
-            color: #888;
-            margin-bottom: 10px;
-        }
-
-        .debug-info {
-            max-width: 1000px;
-            margin: 10px auto;
-            padding: 10px;
-            background: #0f0f23;
-            border-radius: 6px;
-            color: #555;
-            font-family: monospace;
-            font-size: 0.8em;
-            display: none;
-        }
-        .debug-info.show { display: block; }
-
-        footer {
-            background: #0f0f23;
-            border-top: 1px solid #333;
-            padding: 20px;
-            text-align: center;
-            color: #555;
-            font-size: 0.85em;
-        }
+        .empty-state .emoji { font-size: 4em; margin-bottom: 15px; opacity: 0.5; }
+        .empty-state h3 { color: #888; margin-bottom: 10px; }
 
         @media (max-width: 600px) {
-            header h1 { font-size: 1.5em; }
-            .id-input-row { flex-direction: column; }
+            header h1 { font-size: 1.3em; }
+            .input-row { flex-direction: column; }
+            .category-selector { flex-direction: column; align-items: stretch; }
             .items-grid { grid-template-columns: 1fr; }
         }
     </style>
@@ -375,89 +482,151 @@
 
     <header>
         <h1>⚔️ <span>WoW</span> Icon Wiki</h1>
-        <p>Iconos REALES cargados directamente desde Wowhead</p>
+        <p>Tu colección personal de iconos organizada por categorías</p>
     </header>
 
-    <div class="search-container">
+    <div class="main-container">
+
         <div class="info-box">
-            <h3>📌 Cómo usar (¡Ahora acepta URLs completas!)</h3>
-            <p><strong>Opción A:</strong> Pega la URL completa de Wowhead:<br>
-            <code>https://www.wowhead.com/es/item=46780</code></p>
-            <p><strong>Opción B:</strong> Pega solo el ID:<br>
-            <code>46780</code></p>
-            <p><strong>Opción C:</strong> Pega varios separados por comas, espacios o saltos de línea:<br>
-            <code>46780, 32757, https://wowhead.com/item=33223</code></p>
+            💡 <strong>Acepta:</strong> URLs <code>https://www.wowhead.com/item=46780</code> o IDs sueltos <code>46780</code> | Los items se guardan automáticamente
         </div>
 
-        <div class="id-input-section">
-            <h3>🔢 Añadir items (URLs o IDs)</h3>
-            <div class="id-input-row">
-                <input type="text" id="itemIdInput" placeholder="Pega URLs de Wowhead o IDs: 46780, https://www.wowhead.com/item=32757..." autocomplete="off">
-                <button id="loadBtn" onclick="addItemsByIds()">➕ Cargar Iconos</button>
-            </div>
+        <div class="add-section">
+            <h3>➕ Añadir nuevos items</h3>
             
-            <div class="preset-section">
-                <p>📦 <strong>Presets rápidos</strong> (IDs verificados):</p>
-                <div class="preset-buttons">
-                    <button class="preset-btn" onclick="loadPreset('tcg_burning')">🎴 TCG Burning Crusade</button>
-                    <button class="preset-btn" onclick="loadPreset('tcg_wrathgate')">⚔️ TCG Wrathgate</button>
-                    <button class="preset-btn" onclick="loadPreset('tcg_scourgewar')">💀 TCG Scourgewar</button>
-                    <button class="preset-btn" onclick="loadPreset('legendary')">🌟 Legendarios</button>
-                    <button class="preset-btn" onclick="loadPreset('mounts')">🐉 Monturas Raras</button>
-                    <button class="preset-btn danger" onclick="clearAll()">🗑️ Limpiar todo</button>
+            <div class="category-selector">
+                <label>📂 Categoría:</label>
+                <select id="categorySelect"></select>
+                <button class="btn-new-cat" onclick="openNewCategoryModal()">+ Nueva categoría</button>
+            </div>
+
+            <div class="input-row">
+                <input type="text" id="itemIdInput" placeholder="Pega URL o ID: 46780, https://www.wowhead.com/item=32757..." autocomplete="off">
+                <button id="loadBtn" onclick="addItemsByIds()">💾 Guardar</button>
+            </div>
+
+            <div class="progress-bar" id="progressBar">
+                <div class="progress-track">
+                    <div class="progress-fill" id="progressFill"></div>
+                    <div class="progress-text" id="progressText">0 / 0</div>
                 </div>
             </div>
+
+            <div class="toolbar">
+                <button class="tool-btn success" onclick="exportData()">📤 Exportar mi colección</button>
+                <button class="tool-btn success" onclick="document.getElementById('importFile').click()">📥 Importar colección</button>
+                <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(event)">
+                <button class="tool-btn" onclick="manageCategories()">⚙️ Gestionar categorías</button>
+                <button class="tool-btn danger" onclick="clearAll()">🗑️ Limpiar todo</button>
+            </div>
         </div>
-    </div>
 
-    <div class="progress-bar" id="progressBar">
-        <div class="progress-track">
-            <div class="progress-fill" id="progressFill"></div>
-            <div class="progress-text" id="progressText">0 / 0</div>
-        </div>
-    </div>
+        <div class="category-filters" id="categoryFilters"></div>
 
-    <div class="debug-info" id="debugInfo"></div>
-
-    <div class="stats" id="stats" style="display:none;">
-        <span id="itemCount">0</span> items cargados
-    </div>
-
-    <div class="items-container">
         <div class="items-grid" id="itemsGrid"></div>
+        
         <div id="emptyState" class="empty-state">
             <div class="emoji">📦</div>
-            <h3>Aún no hay items cargados</h3>
-            <p>Pega URLs o IDs de Wowhead arriba, o usa los botones de presets</p>
+            <h3>Aún no hay items en esta categoría</h3>
+            <p>Selecciona una categoría arriba y pega URLs o IDs de Wowhead</p>
+        </div>
+    </div>
+
+    <!-- MODAL: Nueva Categoría -->
+    <div class="modal-overlay" id="newCategoryModal">
+        <div class="modal">
+            <h2>📂 Nueva categoría</h2>
+            <label>Nombre de la categoría:</label>
+            <input type="text" id="newCatName" placeholder="Ej: Armas Legendarias, Pets favoritos...">
+            <label>Emoji (selecciona uno):</label>
+            <div class="emoji-row" id="emojiPicker"></div>
+            <div class="modal-buttons">
+                <button class="btn-cancel" onclick="closeModal('newCategoryModal')">Cancelar</button>
+                <button class="btn-save" onclick="saveNewCategory()">💾 Crear</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: Cambiar Categoría -->
+    <div class="modal-overlay" id="changeCategoryModal">
+        <div class="modal">
+            <h2>📂 Cambiar categoría</h2>
+            <label>Nueva categoría para este item:</label>
+            <select id="changeCatSelect"></select>
+            <div class="modal-buttons">
+                <button class="btn-cancel" onclick="closeModal('changeCategoryModal')">Cancelar</button>
+                <button class="btn-save" onclick="saveChangeCategory()">💾 Guardar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: Gestionar Categorías -->
+    <div class="modal-overlay" id="manageCategoriesModal">
+        <div class="modal">
+            <h2>⚙️ Gestionar categorías</h2>
+            <div id="categoriesList" style="max-height:400px; overflow-y:auto;"></div>
+            <div class="modal-buttons" style="margin-top:20px;">
+                <button class="btn-cancel" onclick="closeModal('manageCategoriesModal')">Cerrar</button>
+            </div>
         </div>
     </div>
 
     <div class="toast" id="toast"></div>
 
-    <footer>
-        <p>WoW Icon Wiki | Iconos cargados desde Wowhead.com via proxies CORS</p>
-    </footer>
-
     <script>
-        // ============ PROXIES CORS GRATUITOS ============
+        // ============ CONFIGURACIÓN ============
         const CORS_PROXIES = [
             'https://corsproxy.io/?',
             'https://api.allorigins.win/raw?url=',
             'https://api.codetabs.com/v1/proxy?quest=',
-            'https://proxy.cors.sh/',
         ];
 
-        let loadedItems = [];
-        let workingProxy = null;
+        const STORAGE_KEY = 'wowIconWiki_data';
+        const EMOJIS = ['📦', '🎴', '⚔️', '🛡️', '🧪', '🐉', '🐾', '✨', '👑', '💎', '🏹', '🪄', '🔮', '⚡', '🔥', '❄️', '🌟', '💀', '🦅', '🐅', '🐺', '🐲', '🎭', '🎁', '💍', '🗡️', '🏆', '⭐', '💰', '🌙'];
 
-        // ============ PRESETS ============
-        const PRESETS = {
-            tcg_burning: [32757, 33225, 34061, 32782, 33223, 34499, 35226, 30148, 30150, 35227, 38301, 37254, 35228, 38050, 34686, 35225, 35513, 35499, 37710, 35202],
-            tcg_wrathgate: [44175, 44806, 45063, 45073, 44794, 46813, 46708, 46709, 49284, 44430, 45047, 46831],
-            tcg_scourgewar: [49290, 49704, 49286, 49295, 49377, 49362, 49703, 49183, 46725],
-            legendary: [19019, 17182, 22691, 34334, 32837, 32838, 49623, 71086, 22589, 13262],
-            mounts: [32458, 30480, 33809, 21176, 50818, 49636, 13335, 18902, 19872, 43951, 43952]
+        // ============ ESTADO ============
+        let appData = {
+            categories: [
+                { id: 'tcg', name: 'Juegos de Cartas', emoji: '🎴' },
+                { id: 'legendary', name: 'Legendarios', emoji: '🌟' },
+                { id: 'mounts', name: 'Monturas', emoji: '🐉' },
+                { id: 'pets', name: 'Mascotas', emoji: '🐾' },
+                { id: 'weapons', name: 'Armas', emoji: '⚔️' },
+                { id: 'armor', name: 'Armadura', emoji: '🛡️' },
+                { id: 'consumables', name: 'Consumibles', emoji: '🧪' },
+                { id: 'misc', name: 'Miscelánea', emoji: '📦' }
+            ],
+            items: []
         };
+        
+        let currentCategoryFilter = 'all';
+        let workingProxy = null;
+        let selectedEmoji = '📦';
+        let itemToChangeCategory = null;
+
+        // ============ PERSISTENCIA ============
+        function saveData() {
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(appData));
+            } catch (e) {
+                console.error('Error guardando:', e);
+                showToast('⚠️ Error guardando datos', 'error');
+            }
+        }
+
+        function loadData() {
+            try {
+                const saved = localStorage.getItem(STORAGE_KEY);
+                if (saved) {
+                    const parsed = JSON.parse(saved);
+                    if (parsed.categories && parsed.items) {
+                        appData = parsed;
+                    }
+                }
+            } catch (e) {
+                console.error('Error cargando:', e);
+            }
+        }
 
         // ============ NOTIFICACIONES ============
         function showToast(message, type = 'success') {
@@ -467,48 +636,172 @@
             setTimeout(() => toast.classList.remove('show'), 3500);
         }
 
-        function showDebug(message) {
-            const debug = document.getElementById('debugInfo');
-            debug.textContent = message;
-            debug.classList.add('show');
+        // ============ CATEGORÍAS ============
+        function renderCategorySelect() {
+            const select = document.getElementById('categorySelect');
+            select.innerHTML = '';
+            appData.categories.forEach(cat => {
+                const opt = document.createElement('option');
+                opt.value = cat.id;
+                opt.textContent = `${cat.emoji} ${cat.name}`;
+                select.appendChild(opt);
+            });
         }
 
-        function hideDebug() {
-            document.getElementById('debugInfo').classList.remove('show');
+        function renderCategoryFilters() {
+            const container = document.getElementById('categoryFilters');
+            container.innerHTML = '';
+
+            // Filtro "Todos"
+            const allCount = appData.items.length;
+            const allBtn = document.createElement('div');
+            allBtn.className = 'cat-filter ' + (currentCategoryFilter === 'all' ? 'active' : '');
+            allBtn.innerHTML = `📦 Todos <span class="count">${allCount}</span>`;
+            allBtn.onclick = () => { currentCategoryFilter = 'all'; renderCategoryFilters(); renderItems(); };
+            container.appendChild(allBtn);
+
+            // Filtros por categoría
+            appData.categories.forEach(cat => {
+                const count = appData.items.filter(i => i.category === cat.id).length;
+                if (count === 0) return; // No mostrar categorías vacías
+                
+                const btn = document.createElement('div');
+                btn.className = 'cat-filter ' + (currentCategoryFilter === cat.id ? 'active' : '');
+                btn.innerHTML = `${cat.emoji} ${cat.name} <span class="count">${count}</span>`;
+                btn.onclick = () => { currentCategoryFilter = cat.id; renderCategoryFilters(); renderItems(); };
+                container.appendChild(btn);
+            });
         }
 
-        // ============ EXTRAER IDs DE TEXTO (URLs o números) ============
+        // ============ MODAL: NUEVA CATEGORÍA ============
+        function openNewCategoryModal() {
+            document.getElementById('newCatName').value = '';
+            selectedEmoji = '📦';
+            renderEmojiPicker();
+            document.getElementById('newCategoryModal').classList.add('show');
+        }
+
+        function renderEmojiPicker() {
+            const container = document.getElementById('emojiPicker');
+            container.innerHTML = '';
+            EMOJIS.forEach(emoji => {
+                const btn = document.createElement('div');
+                btn.className = 'emoji-btn ' + (emoji === selectedEmoji ? 'selected' : '');
+                btn.textContent = emoji;
+                btn.onclick = () => {
+                    selectedEmoji = emoji;
+                    renderEmojiPicker();
+                };
+                container.appendChild(btn);
+            });
+        }
+
+        function saveNewCategory() {
+            const name = document.getElementById('newCatName').value.trim();
+            if (!name) {
+                showToast('⚠️ Pon un nombre a la categoría', 'warning');
+                return;
+            }
+            
+            const id = 'cat_' + Date.now();
+            appData.categories.push({ id, name, emoji: selectedEmoji });
+            saveData();
+            renderCategorySelect();
+            
+            // Seleccionar la nueva categoría automáticamente
+            document.getElementById('categorySelect').value = id;
+            
+            closeModal('newCategoryModal');
+            showToast(`✅ Categoría "${selectedEmoji} ${name}" creada`);
+        }
+
+        // ============ MODAL: CAMBIAR CATEGORÍA ============
+        function openChangeCategoryModal(itemIndex) {
+            itemToChangeCategory = itemIndex;
+            const select = document.getElementById('changeCatSelect');
+            select.innerHTML = '';
+            appData.categories.forEach(cat => {
+                const opt = document.createElement('option');
+                opt.value = cat.id;
+                opt.textContent = `${cat.emoji} ${cat.name}`;
+                select.appendChild(opt);
+            });
+            select.value = appData.items[itemIndex].category;
+            document.getElementById('changeCategoryModal').classList.add('show');
+        }
+
+        function saveChangeCategory() {
+            const newCat = document.getElementById('changeCatSelect').value;
+            if (itemToChangeCategory !== null) {
+                appData.items[itemToChangeCategory].category = newCat;
+                saveData();
+                renderCategoryFilters();
+                renderItems();
+                closeModal('changeCategoryModal');
+                showToast('✅ Categoría cambiada');
+            }
+        }
+
+        // ============ MODAL: GESTIONAR CATEGORÍAS ============
+        function manageCategories() {
+            const container = document.getElementById('categoriesList');
+            container.innerHTML = '';
+            appData.categories.forEach((cat, index) => {
+                const count = appData.items.filter(i => i.category === cat.id).length;
+                const div = document.createElement('div');
+                div.style.cssText = 'display:flex; align-items:center; gap:10px; padding:10px; border-bottom:1px solid #333;';
+                div.innerHTML = `
+                    <span style="font-size:1.5em;">${cat.emoji}</span>
+                    <div style="flex:1;">
+                        <div style="color:#fff; font-weight:bold;">${cat.name}</div>
+                        <div style="color:#888; font-size:0.85em;">${count} items</div>
+                    </div>
+                    <button class="tool-btn danger" onclick="deleteCategory(${index})" style="padding:6px 12px;">🗑️</button>
+                `;
+                container.appendChild(div);
+            });
+            document.getElementById('manageCategoriesModal').classList.add('show');
+        }
+
+        function deleteCategory(index) {
+            const cat = appData.categories[index];
+            const count = appData.items.filter(i => i.category === cat.id).length;
+            
+            if (count > 0) {
+                if (!confirm(`La categoría "${cat.name}" tiene ${count} items. ¿Borrarla y mover los items a "Miscelánea"?`)) return;
+                appData.items.forEach(i => {
+                    if (i.category === cat.id) i.category = 'misc';
+                });
+            } else {
+                if (!confirm(`¿Borrar la categoría "${cat.name}"?`)) return;
+            }
+            
+            appData.categories.splice(index, 1);
+            saveData();
+            renderCategorySelect();
+            renderCategoryFilters();
+            renderItems();
+            manageCategories(); // Refrescar el modal
+            showToast('🗑️ Categoría eliminada');
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('show');
+        }
+
+        // ============ EXTRAER IDs ============
         function extractIds(text) {
             const ids = new Set();
-            
-            // Patrones para detectar IDs
-            const patterns = [
-                /item=(\d+)/gi,           // item=12345
-                /item\/(\d+)/gi,          // item/12345
-                /\/(\d+)\//gi,            // /12345/
-                /\b(\d{2,7})\b/gi,        // Números sueltos de 2-7 dígitos
-            ];
-
-            // Dividir por comas, espacios y saltos de línea
             const parts = text.split(/[,\s\n]+/).filter(p => p.trim());
             
             for (const part of parts) {
-                let found = false;
-                
-                // Probar cada patrón
-                for (const pattern of patterns) {
-                    pattern.lastIndex = 0; // Reset regex
-                    const matches = [...part.matchAll(pattern)];
-                    if (matches.length > 0) {
-                        for (const match of matches) {
-                            const id = parseInt(match[1]);
-                            if (id > 0 && id < 10000000) { // ID válido
-                                ids.add(id);
-                                found = true;
-                            }
-                        }
-                        if (found) break; // Si encontramos con un patrón, no probar los demás para esta parte
-                    }
+                let match = part.match(/item[=\/](\d+)/i);
+                if (match) {
+                    ids.add(parseInt(match[1]));
+                    continue;
+                }
+                if (/^\d{1,7}$/.test(part)) {
+                    ids.add(parseInt(part));
                 }
             }
             
@@ -517,51 +810,39 @@
 
         // ============ FETCH CON PROXY ============
         async function fetchWithProxy(url) {
-            // Probar proxy en caché primero
             if (workingProxy) {
                 try {
-                    const proxyUrl = workingProxy + encodeURIComponent(url);
-                    const response = await fetch(proxyUrl, { 
+                    const response = await fetch(workingProxy + encodeURIComponent(url), { 
                         signal: AbortSignal.timeout(15000) 
                     });
                     if (response.ok) {
                         const text = await response.text();
                         if (text && text.length > 50) return text;
                     }
-                } catch (e) {
-                    console.log('Proxy en caché falló:', e.message);
-                    workingProxy = null;
-                }
+                } catch (e) { workingProxy = null; }
             }
 
-            // Probar todos los proxies
             for (const proxy of CORS_PROXIES) {
                 try {
-                    console.log(`🔄 Probando proxy: ${proxy}`);
-                    const proxyUrl = proxy + encodeURIComponent(url);
-                    const response = await fetch(proxyUrl, { 
+                    const response = await fetch(proxy + encodeURIComponent(url), { 
                         signal: AbortSignal.timeout(15000) 
                     });
                     if (response.ok) {
                         const text = await response.text();
                         if (text && text.length > 50) {
                             workingProxy = proxy;
-                            console.log(`✅ Proxy funcional: ${proxy}`);
                             return text;
                         }
                     }
-                } catch (e) {
-                    console.log(`❌ Proxy ${proxy} falló:`, e.message);
-                    continue;
-                }
+                } catch (e) { continue; }
             }
             
             throw new Error('Ningún proxy CORS funcionó');
         }
 
-        // ============ CARGAR ITEM POR ID ============
-        async function loadItemById(id) {
-            if (loadedItems.find(item => item.id === id)) {
+        // ============ CARGAR ITEM ============
+        async function loadItemById(id, category) {
+            if (appData.items.find(item => item.id === id)) {
                 return { success: false, reason: 'duplicado' };
             }
 
@@ -569,49 +850,31 @@
                 const xmlUrl = `https://www.wowhead.com/item=${id}&xml`;
                 const text = await fetchWithProxy(xmlUrl);
                 
-                console.log(`📄 XML recibido para ID ${id}, longitud: ${text.length}`);
-                
-                // Parsear XML
                 const parser = new DOMParser();
                 const xml = parser.parseFromString(text, 'text/xml');
                 
-                const parseError = xml.querySelector('parsererror');
-                if (parseError) {
-                    console.error('Error parseo XML:', parseError.textContent);
-                    throw new Error('Error de parseo XML');
-                }
-
-                const errorNode = xml.querySelector('error');
-                if (errorNode) {
-                    throw new Error(errorNode.textContent);
-                }
-
-                // Buscar elementos
                 const itemNode = xml.querySelector('item');
-                if (!itemNode) {
-                    throw new Error('No se encontró elemento <item>');
-                }
+                if (!itemNode) throw new Error('No se encontró elemento <item>');
 
                 const nameNode = itemNode.querySelector('name');
                 const iconNode = itemNode.querySelector('icon');
                 const qualityNode = itemNode.querySelector('quality');
                 
-                if (!iconNode || !iconNode.textContent) {
-                    throw new Error('No se encontró el icono');
-                }
+                if (!iconNode || !iconNode.textContent) throw new Error('No se encontró el icono');
 
                 const item = {
                     id: id,
                     name: nameNode ? nameNode.textContent.trim() : `Item #${id}`,
                     icon: iconNode.textContent.toLowerCase().trim(),
-                    quality: qualityNode ? (qualityNode.getAttribute('id') || '1') : '1'
+                    quality: qualityNode ? (qualityNode.getAttribute('id') || '1') : '1',
+                    category: category
                 };
                 
-                console.log(`✅ Item ${id} cargado:`, item);
-                loadedItems.push(item);
+                appData.items.push(item);
+                saveData();
                 return { success: true };
             } catch (e) {
-                console.error(`❌ Error cargando item ${id}:`, e.message);
+                console.error(`Error item ${id}:`, e.message);
                 return { success: false, reason: e.message };
             }
         }
@@ -619,29 +882,26 @@
         // ============ AÑADIR ITEMS ============
         async function addItemsByIds() {
             const input = document.getElementById('itemIdInput').value.trim();
+            const category = document.getElementById('categorySelect').value;
+            
             if (!input) {
-                showToast('⚠️ Por favor pega al menos un ID o URL', 'warning');
+                showToast('⚠️ Pega al menos un ID o URL', 'warning');
+                return;
+            }
+            if (!category) {
+                showToast('⚠️ Selecciona una categoría', 'warning');
                 return;
             }
 
-            // Extraer IDs (acepta URLs y números)
             const ids = extractIds(input);
-            
             if (ids.length === 0) {
-                showToast('⚠️ No se encontraron IDs válidos. Pega un número o URL de Wowhead', 'error');
-                showDebug(`Texto recibido: "${input}" - No se pudo extraer ningún ID válido`);
+                showToast('⚠️ No se encontraron IDs válidos', 'error');
                 return;
             }
 
-            hideDebug();
-            console.log(`🎯 IDs extraídos:`, ids);
-            showToast(`🔍 ${ids.length} ID(s) detectado(s): ${ids.slice(0, 5).join(', ')}${ids.length > 5 ? '...' : ''}`);
+            const cat = appData.categories.find(c => c.id === category);
+            showToast(`🔍 Cargando ${ids.length} items en "${cat.emoji} ${cat.name}"`);
             
-            await processIds(ids);
-            document.getElementById('itemIdInput').value = '';
-        }
-
-        async function processIds(ids) {
             const loadBtn = document.getElementById('loadBtn');
             const progressBar = document.getElementById('progressBar');
             const progressFill = document.getElementById('progressFill');
@@ -650,60 +910,42 @@
             loadBtn.disabled = true;
             progressBar.classList.add('show');
             
-            let success = 0;
-            let failed = 0;
-            let duplicates = 0;
-            const errors = [];
+            let success = 0, failed = 0, duplicates = 0;
 
             for (let i = 0; i < ids.length; i++) {
                 const id = ids[i];
-                progressText.textContent = `Cargando ${i + 1} / ${ids.length} (ID: ${id})`;
+                progressText.textContent = `${i + 1} / ${ids.length} (ID: ${id})`;
                 progressFill.style.width = `${((i + 1) / ids.length) * 100}%`;
                 
-                const result = await loadItemById(id);
+                const result = await loadItemById(id, category);
                 if (result.success) {
                     success++;
                     renderItems();
+                    renderCategoryFilters();
                 } else if (result.reason === 'duplicado') {
                     duplicates++;
                 } else {
                     failed++;
-                    errors.push(`ID ${id}: ${result.reason}`);
                 }
                 
                 await new Promise(r => setTimeout(r, 300));
             }
 
             loadBtn.disabled = false;
-            
-            setTimeout(() => {
-                progressBar.classList.remove('show');
-            }, 1000);
+            setTimeout(() => progressBar.classList.remove('show'), 1000);
 
-            let msg = `✅ ${success} cargados`;
+            let msg = `✅ ${success} guardados en "${cat.name}"`;
             if (duplicates > 0) msg += ` | ⚠️ ${duplicates} duplicados`;
             if (failed > 0) msg += ` | ❌ ${failed} fallidos`;
-            
             showToast(msg, failed > 0 ? 'warning' : 'success');
             
-            if (failed > 0) {
-                showDebug('Errores: ' + errors.slice(0, 3).join(' | '));
-            }
+            document.getElementById('itemIdInput').value = '';
         }
 
-        async function loadPreset(presetName) {
-            const ids = PRESETS[presetName];
-            if (!ids) return;
-            await processIds(ids);
-        }
-
-        // ============ RENDER ============
+        // ============ RENDER ITEMS ============
         function getQualityName(qualityId) {
-            const qualities = {
-                '0': 'poor', '1': 'common', '2': 'uncommon', '3': 'rare',
-                '4': 'epic', '5': 'legendary', '6': 'artifact', '7': 'heirloom'
-            };
-            return qualities[qualityId] || 'common';
+            const q = {'0':'poor','1':'common','2':'uncommon','3':'rare','4':'epic','5':'legendary','6':'artifact','7':'heirloom'};
+            return q[qualityId] || 'common';
         }
 
         function getIconUrl(iconName) {
@@ -713,35 +955,37 @@
         function renderItems() {
             const grid = document.getElementById('itemsGrid');
             const emptyState = document.getElementById('emptyState');
-            const stats = document.getElementById('stats');
 
-            if (loadedItems.length === 0) {
+            const filtered = currentCategoryFilter === 'all' 
+                ? appData.items 
+                : appData.items.filter(i => i.category === currentCategoryFilter);
+
+            if (filtered.length === 0) {
                 grid.innerHTML = '';
                 emptyState.style.display = 'block';
-                stats.style.display = 'none';
                 return;
             }
 
             emptyState.style.display = 'none';
-            stats.style.display = 'block';
-            document.getElementById('itemCount').textContent = loadedItems.length;
-            
             grid.innerHTML = '';
 
-            loadedItems.forEach((item, index) => {
+            filtered.forEach((item) => {
+                const realIndex = appData.items.indexOf(item);
                 const quality = getQualityName(item.quality);
                 const iconUrl = getIconUrl(item.icon);
                 const safeName = item.name.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+                const cat = appData.categories.find(c => c.id === item.category);
+                const catLabel = cat ? `${cat.emoji} ${cat.name}` : '📦';
                 
                 const card = document.createElement('div');
                 card.className = `item-card ${quality}`;
                 card.innerHTML = `
+                    <div class="item-category-badge">${catLabel}</div>
                     <div class="item-header">
                         <div class="icon-wrapper">
                             <img src="${iconUrl}" alt="${item.name}" 
                                  onerror="this.src='https://wow.zamimg.com/images/wow/icons/large/inv_misc_questionmark.jpg'"
-                                 onclick="window.open('https://es.wowhead.com/item=${item.id}', '_blank')"
-                                 title="Click para ver en Wowhead">
+                                 onclick="window.open('https://es.wowhead.com/item=${item.id}', '_blank')">
                         </div>
                         <div class="item-info">
                             <div class="item-name ${quality}">${item.name}</div>
@@ -750,24 +994,13 @@
                         </div>
                     </div>
                     <div class="item-actions">
-                        <button class="btn-action btn-copy-url" onclick="copyText('${getIconUrl(item.icon)}')">
-                            📋 URL
-                        </button>
-                        <button class="btn-action btn-copy-icon" onclick="copyImage('${item.icon}', '${safeName}')">
-                            🖼️ Copiar IMG
-                        </button>
-                        <button class="btn-action btn-download" onclick="downloadIcon('${item.icon}', '${safeName}')">
-                            💾 Descargar
-                        </button>
-                        <button class="btn-action btn-copy-html" onclick="copyHtml('${item.icon}', '${safeName}')">
-                            📝 HTML
-                        </button>
-                        <button class="btn-action btn-wowhead" onclick="window.open('https://es.wowhead.com/item=${item.id}', '_blank')">
-                            🔗 Wowhead
-                        </button>
-                        <button class="btn-action btn-remove" onclick="removeItem(${index})">
-                            ✖ Eliminar
-                        </button>
+                        <button class="btn-action btn-copy-url" onclick="copyText('${getIconUrl(item.icon)}')">📋 URL</button>
+                        <button class="btn-action btn-copy-icon" onclick="copyImage('${item.icon}','${safeName}')">🖼️ IMG</button>
+                        <button class="btn-action btn-download" onclick="downloadIcon('${item.icon}','${safeName}')">💾 Descargar</button>
+                        <button class="btn-action btn-copy-html" onclick="copyHtml('${item.icon}','${safeName}')">📝 HTML</button>
+                        <button class="btn-action btn-wowhead" onclick="window.open('https://es.wowhead.com/item=${item.id}','_blank')">🔗 Wowhead</button>
+                        <button class="btn-action btn-change-cat" onclick="openChangeCategoryModal(${realIndex})">📂 Categoría</button>
+                        <button class="btn-action btn-remove" onclick="removeItem(${realIndex})">✖ Eliminar</button>
                     </div>
                 `;
                 grid.appendChild(card);
@@ -775,34 +1008,85 @@
         }
 
         function removeItem(index) {
-            loadedItems.splice(index, 1);
+            if (!confirm(`¿Eliminar "${appData.items[index].name}"?`)) return;
+            appData.items.splice(index, 1);
+            saveData();
             renderItems();
+            renderCategoryFilters();
             showToast('🗑️ Item eliminado');
         }
 
         function clearAll() {
-            if (loadedItems.length === 0) return;
-            if (confirm(`¿Eliminar todos los ${loadedItems.length} items cargados?`)) {
-                loadedItems = [];
-                renderItems();
-                hideDebug();
-                showToast('🗑️ Todo eliminado');
-            }
+            if (appData.items.length === 0) return;
+            if (!confirm(`¿Eliminar TODOS los ${appData.items.length} items? (Las categorías se conservan)`)) return;
+            appData.items = [];
+            saveData();
+            renderItems();
+            renderCategoryFilters();
+            showToast('🗑️ Todo eliminado');
         }
 
-        // ============ COPIA ============
+        // ============ EXPORTAR / IMPORTAR ============
+        function exportData() {
+            if (appData.items.length === 0) {
+                showToast('⚠️ No hay items para exportar', 'warning');
+                return;
+            }
+            const blob = new Blob([JSON.stringify(appData, null, 2)], { type: 'application/json' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `wow_collection_${new Date().toISOString().slice(0,10)}.json`;
+            link.click();
+            URL.revokeObjectURL(link.href);
+            showToast('📤 Colección exportada');
+        }
+
+        function importData(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const imported = JSON.parse(e.target.result);
+                    if (!imported.categories || !imported.items) throw new Error('Formato inválido');
+                    
+                    if (confirm(`¿Importar ${imported.items.length} items y ${imported.categories.length} categorías? (se añadirán a tu colección actual)`)) {
+                        // Combinar categorías sin duplicar
+                        imported.categories.forEach(cat => {
+                            if (!appData.categories.find(c => c.id === cat.id)) {
+                                appData.categories.push(cat);
+                            }
+                        });
+                        // Combinar items sin duplicar
+                        imported.items.forEach(item => {
+                            if (!appData.items.find(i => i.id === item.id)) {
+                                appData.items.push(item);
+                            }
+                        });
+                        saveData();
+                        renderCategorySelect();
+                        renderCategoryFilters();
+                        renderItems();
+                        showToast(`✅ Importación completa`);
+                    }
+                } catch (e) {
+                    showToast('❌ Error: archivo inválido', 'error');
+                }
+            };
+            reader.readAsText(file);
+            event.target.value = '';
+        }
+
+        // ============ COPIA / DESCARGA ============
         function copyText(text) {
-            navigator.clipboard.writeText(text).then(() => {
-                showToast('✅ URL copiada al portapapeles');
-            }).catch(() => {
-                const textarea = document.createElement('textarea');
-                textarea.value = text;
-                document.body.appendChild(textarea);
-                textarea.select();
-                document.execCommand('copy');
-                document.body.removeChild(textarea);
-                showToast('✅ URL copiada');
-            });
+            navigator.clipboard.writeText(text).then(() => showToast('✅ URL copiada'))
+                .catch(() => {
+                    const t = document.createElement('textarea');
+                    t.value = text; document.body.appendChild(t); t.select();
+                    document.execCommand('copy'); document.body.removeChild(t);
+                    showToast('✅ URL copiada');
+                });
         }
 
         async function copyImage(iconName, itemName) {
@@ -810,36 +1094,25 @@
             try {
                 const response = await fetch(url);
                 const blob = await response.blob();
-                
                 const img = new Image();
                 img.crossOrigin = 'anonymous';
                 img.src = URL.createObjectURL(blob);
+                await new Promise((res, rej) => { img.onload = res; img.onerror = rej; });
                 
-                await new Promise((resolve, reject) => {
-                    img.onload = resolve;
-                    img.onerror = reject;
-                });
-
                 const canvas = document.createElement('canvas');
                 canvas.width = img.width;
                 canvas.height = img.height;
-                const ctx = canvas.getContext('2d');
-                ctx.drawImage(img, 0, 0);
-
+                canvas.getContext('2d').drawImage(img, 0, 0);
+                
                 canvas.toBlob(async (pngBlob) => {
                     try {
-                        await navigator.clipboard.write([
-                            new ClipboardItem({ 'image/png': pngBlob })
-                        ]);
-                        showToast(`✅ Imagen copiada - Pega con Ctrl+V`);
-                    } catch (e) {
-                        copyText(url);
-                    }
+                        await navigator.clipboard.write([new ClipboardItem({ 'image/png': pngBlob })]);
+                        showToast('✅ Imagen copiada - Pega con Ctrl+V');
+                    } catch (e) { copyText(url); }
                 }, 'image/png');
-                
                 URL.revokeObjectURL(img.src);
             } catch (e) {
-                showToast('⚠️ No se pudo copiar imagen, copiando URL', 'warning');
+                showToast('⚠️ No se pudo copiar', 'warning');
                 copyText(url);
             }
         }
@@ -847,29 +1120,20 @@
         function downloadIcon(iconName, itemName) {
             const url = getIconUrl(iconName);
             const safeName = itemName.replace(/[^a-zA-Z0-9]/g, '_');
-            
-            fetch(url)
-                .then(r => r.blob())
-                .then(blob => {
-                    const link = document.createElement('a');
-                    link.href = URL.createObjectURL(blob);
-                    link.download = `${safeName}_${iconName}.jpg`;
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                    URL.revokeObjectURL(link.href);
-                    showToast(`💾 Descargando icono`);
-                })
-                .catch(() => {
-                    window.open(url, '_blank');
-                    showToast('📥 Imagen abierta - Guárdala con clic derecho', 'warning');
-                });
+            fetch(url).then(r => r.blob()).then(blob => {
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = `${safeName}_${iconName}.jpg`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(link.href);
+                showToast('💾 Descargando');
+            }).catch(() => window.open(url, '_blank'));
         }
 
         function copyHtml(iconName, itemName) {
-            const url = getIconUrl(iconName);
-            const html = `<img src="${url}" alt="${itemName}" width="56" height="56" style="border-radius:4px;">`;
-            copyText(html);
+            copyText(`<img src="${getIconUrl(iconName)}" alt="${itemName}" width="56" height="56" style="border-radius:4px;">`);
         }
 
         // ============ EVENTOS ============
@@ -877,6 +1141,22 @@
             if (e.key === 'Enter') addItemsByIds();
         });
 
+        document.querySelectorAll('.modal-overlay').forEach(modal => {
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) modal.classList.remove('show');
+            });
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('show'));
+            }
+        });
+
+        // ============ INICIALIZAR ============
+        loadData();
+        renderCategorySelect();
+        renderCategoryFilters();
         renderItems();
     </script>
 </body>
